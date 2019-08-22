@@ -1,6 +1,6 @@
 @extends('layouts.index')
 
-@section('title', 'Jadwal :: Daftar')
+@section('title', 'Jadwal Pindah :: Tambah')
 
 @section('content')
 
@@ -10,35 +10,59 @@
         <!--  Traffic 1 -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="card" id="form-jadwal" style="display:none">
+                <div class="card" id="form-pindah">
                     <div class="card-header">
-                        <strong>Tambah Jadwal</strong>
+                        <strong>Buat Jadwal Pindah</strong>
                     </div>
                     <div class="card-content mt-5">
                         <div class="col-lg-10 offset-md-2">
                             <!-- Content detail -->
-                                @include('administrator.jadwal.form')
+                            <form action="{{url('admin/pindah/jadwal/daftar/ubah')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                               @csrf
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="id_kelas" class="form-control-label">Kelas</label></div>
+                                    :<div class="col-12 col-md-7">
+                                    
+                                        <select name="id_kelas" id="id_kelas" data-style="btn-primary" class="form-control form-control-sm selectpicker">
+                                            @if($data->id_kelas !== null)
+                                            <option value="{{$data->id_kelas}}">{{$data->data_kelas->nama}}</option>
+                                            @else
+                                            <option value="">--Pilih--</option>
+                                            @endif
+                                            @foreach($kelas as $val)
+                                                <option value="{{$val->id_kelas}}">{{$val->nama}}</option>
+                                            @endforeach
+                                        </select>
+                                        <input type="hidden" name="id_jadwal" value="{{$data->id_jadwal}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="jam_mulai_pindah" class="form-control-label">Jam Mulai</label></div>
+                                    :<div class="col-12 col-md-7">
+                                        <input type="text" class="form-control form-control-sm timepicker" id="jam_mulai_pindah" name="jam_mulai_pindah" value="--:--">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="jam_akhir_pindah" class="form-control-label">Jam Akhir</label></div>
+                                    :<div class="col-12 col-md-7">
+                                        <input type="text" class="form-control form-control-sm timepicker" id="jam_akhir_pindah" name="jam_akhir_pindah" value="--:--">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-3"><label for="tgl_pindah" class="form-control-label">Tanggal</label></div>
+                                    :<div class="col-12 col-md-7">
+                                        <input type="date" class="form-control form-control-sm" id="tgl_pindah" name="tgl_pindah" value="2019-09-06">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="form-actions form-group">
+                                    <button type="submit" id="btn-submit" class="btn btn-sm btn-primary" data-submit=""><i class="fa fa-sign-out"></i> Pindahkan</button>    
+                                    <a href="{{url('admin/jadwal/daftar')}}" id="btn-submit" class="btn btn-sm btn-danger" data-submit=""><i class="fa fa-times"></i> Batal</a>     
+                                </div>
+                            </form>
+
                             <!-- Batas Content detail -->
                         </div> <!-- /.col-lg-10 -->
-
-                    </div> <!-- /.row -->
-                    <div class="card-body"></div>
-                </div>
-
-                <div class="card" id="content-jadwal">
-                    <div class="card-header">
-                        <strong>Jadwal Kuliah</strong>
-                        <a href="#" id="tambah" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>    
-
-                    </div>
-                    <div class="card-content mt-5">
-                        
-                        <div class="col-lg-12">
-                            <!-- Table -->
-                                @include('administrator.jadwal.table')
-                            <!-- Batas Table -->                
-                        </div>
-
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
                 </div>
@@ -53,53 +77,28 @@
     <!-- .animated -->
 </div>
 
-<!-- Modal Hapus -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Konfirmasi Hapus</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    Jadwal <b></b> akan dihapus ?
-                </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btn-submit" class="btn btn-primary btn-sm" data-submit="">Hapus</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Hapus -->
-
 @endsection
 
 @push('script')
 <script>
     jQuery(document).ready(function($) {
    
-        function capitalize(data) {
-            return data.charAt(0).toUpperCase() + data.slice(1)
-        }
 
-        $('#jadwal-table').DataTable({
-            processing  : true,
-            serverSide  : true,
-            ajax        : '{{route("jadwal.daftar.ajax")}}',
-            columns     : [
-                {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
-                {data   : 'data_dosen.nama',              name: 'data_dosen.nama', defaultContent: '-'},
-                {data   : 'hari',                         name: 'hari'},
-                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
-                {data   : 'jam_mulai',                    name: 'jam_mulai' },
-                {data   : 'status',                       name: 'status'},
-                {data   : 'aksi',                         name: 'status'},
-            ]
-        });
+        // $('#jadwal-table').DataTable({
+        //     processing  : true,
+        //     serverSide  : true,
+        //     ajax        : '{{route("jadwal.daftar.ajax")}}',
+        //     columns     : [
+        //         {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
+        //         {data   : 'data_dosen.nama',              name: 'data_dosen.nama', defaultContent: '-'},
+        //         {data   : 'hari',                         name: 'hari'},
+        //         {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
+        //         {data   : 'jam_mulai',                    name: 'jam_mulai' },
+        //         {data   : 'data_semester.tahun_semester', name: 'data_semester.tahun_semester' },
+        //         {data   : 'status',                       name: 'status'},
+        //         {data   : 'aksi',                         name: 'status'},
+        //     ]
+        // });
 
         $(document).on('click', '#btn-batal', function() {
             $('#form-jadwal').hide('slide', {direction:'right'}, 500 , function() {

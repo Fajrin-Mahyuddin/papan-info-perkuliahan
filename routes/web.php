@@ -46,6 +46,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admi
     Route::post('jadwal/hapus', 'JadwalController@destroy');
     Route::get('jadwal/daftar/ajaxData', 'JadwalController@ajaxData')->name('jadwal.daftar.ajax');
 
+    Route::get('pindah/jadwal/daftar', 'PindahController@index');
+    Route::get('pindah/jadwal/daftar/tambah/{id}', 'PindahController@edit');
+    Route::post('pindah/jadwal/daftar/ubah', 'PindahController@update');
+    Route::post('pindah/jadwal/tambah', 'PindahController@store');
+    Route::post('pindah/jadwal/ubah', 'PindahController@store');
+    Route::post('pindah/jadwal/hapus', 'PindahController@destroy');
+    Route::get('pindah/jadwal/daftar/ajaxData', 'PindahController@ajaxData')->name('pindah.jadwal.daftar.ajax');
+
     Route::get('informasi/daftar', 'InformasiController@index');
     Route::post('informasi/tambah', 'InformasiController@store');
     Route::post('informasi/ubah', 'InformasiController@store');

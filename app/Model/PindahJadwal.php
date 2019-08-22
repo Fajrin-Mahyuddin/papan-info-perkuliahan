@@ -12,12 +12,12 @@ class PindahJadwal extends Model
 
     public function data_jadwal()
     {
-        return $this->belongsTo('App\Model\JadwalKuliah');
+        return $this->belongsTo('App\Model\JadwalKuliah', 'id_jadwal');
     }
 
     public function data_kelas()
     {
-        return $this->belongsTo('App\Model\Kelas');
+        return $this->belongsTo('App\Model\Kelas', 'id_kelas');
     }
 
 }

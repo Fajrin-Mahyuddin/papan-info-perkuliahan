@@ -33,7 +33,7 @@ class JadwalController extends Controller
                                     ->addColumn('hari', function($data) {
                                         return '<span class="upCaseFont">'.$data->hari.'</span>';
                                     })->addColumn('aksi', function($data) {
-                                        return '<a href="#" class="btn-edit-action" data-id="'.$data->id_jadwal.'" data-dosen="'.$data->id_dosen.'" data-mk="'.$data->id_mk.'" data-kelas="'.$data->id_kelas.'" data-hari="'.$data->hari.'" data-semester="'.$data->id_semester.'" data-jam_mulai="'.$data->jam_mulai.'" data-jam_akhir="'.$data->jam_akhir.'"><i class="fa fa-pencil"></i></a> | <a href="#" class="btn-delete-action" data-id="'.$data->id_jadwal.'" data-hari="'.$data->hari.'"><i class="fa fa-trash"></i></a>';
+                                        return '<a href="'.url('admin/pindah/jadwal/daftar/tambah/'.base64_encode(date('Y/m/d').'-'.$data->id_jadwal.'-')).'" class="btn-edit-action" data-id="'.$data->id_jadwal.'"><i class="fa fa-sign-out"></i> Pindahkan</a> | <a href="#" class="btn-edit-action" data-id="'.$data->id_jadwal.'" data-dosen="'.$data->id_dosen.'" data-mk="'.$data->id_mk.'" data-kelas="'.$data->id_kelas.'" data-hari="'.$data->hari.'" data-semester="'.$data->id_semester.'" data-jam_mulai="'.$data->jam_mulai.'" data-jam_akhir="'.$data->jam_akhir.'"><i class="fa fa-pencil"></i></a> | <a href="#" class="btn-delete-action" data-id="'.$data->id_jadwal.'" data-hari="'.$data->hari.'"><i class="fa fa-trash"></i></a>';
                                     })->escapeColumns([])->make(true);
     }
 

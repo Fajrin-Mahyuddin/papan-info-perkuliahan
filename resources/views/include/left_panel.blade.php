@@ -12,11 +12,10 @@
                         <li><i class="fa fa-angle-double-right"></i><a href="{{url('admin/jadwal/daftar')}}">Daftar</a></li>
                     </ul>
                 </li>
-                <li class="menu-item-has-children dropdown">
+                <li class="menu-item-has-children dropdown pindah">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-calendar-check-o"></i>Jadwal Pindah MK</a>
                     <ul class="sub-menu children dropdown-menu">
-                        <li><i class="fa fa-angle-double-right"></i><a href="ui-badges.html">Tambah</a></li>
-                        <li><i class="fa fa-angle-double-right"></i><a href="ui-buttons.html">Daftar</a></li>
+                        <li><i class="fa fa-angle-double-right"></i><a href="{{url('admin/pindah/jadwal/daftar')}}">Daftar</a></li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown informasi">

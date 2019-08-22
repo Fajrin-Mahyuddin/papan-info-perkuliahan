@@ -1,6 +1,6 @@
 @extends('layouts.index')
 
-@section('title', 'Jadwal :: Daftar')
+@section('title', 'Jadwal Pindah:: Daftar')
 
 @section('content')
 
@@ -10,32 +10,15 @@
         <!--  Traffic 1 -->
         <div class="row">
             <div class="col-lg-12">
-                <div class="card" id="form-jadwal" style="display:none">
+                <div class="card" id="content-pindah">
                     <div class="card-header">
-                        <strong>Tambah Jadwal</strong>
-                    </div>
-                    <div class="card-content mt-5">
-                        <div class="col-lg-10 offset-md-2">
-                            <!-- Content detail -->
-                                @include('administrator.jadwal.form')
-                            <!-- Batas Content detail -->
-                        </div> <!-- /.col-lg-10 -->
-
-                    </div> <!-- /.row -->
-                    <div class="card-body"></div>
-                </div>
-
-                <div class="card" id="content-jadwal">
-                    <div class="card-header">
-                        <strong>Jadwal Kuliah</strong>
-                        <a href="#" id="tambah" class="btn btn-sm btn-primary pull-right"><i class="fa fa-plus"></i></a>    
-
+                        <strong>Daftar Jadwal Pindah</strong>
                     </div>
                     <div class="card-content mt-5">
                         
-                        <div class="col-lg-12">
+                        <div class="col-md-12">
                             <!-- Table -->
-                                @include('administrator.jadwal.table')
+                                @include('administrator.pindah.table')
                             <!-- Batas Table -->                
                         </div>
 
@@ -81,22 +64,18 @@
 @push('script')
 <script>
     jQuery(document).ready(function($) {
-   
-        function capitalize(data) {
-            return data.charAt(0).toUpperCase() + data.slice(1)
-        }
 
-        $('#jadwal-table').DataTable({
+        $('#pindah-table').DataTable({
             processing  : true,
             serverSide  : true,
-            ajax        : '{{route("jadwal.daftar.ajax")}}',
+            ajax        : '{{route("pindah.jadwal.daftar.ajax")}}',
             columns     : [
-                {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
-                {data   : 'data_dosen.nama',              name: 'data_dosen.nama', defaultContent: '-'},
-                {data   : 'hari',                         name: 'hari'},
+                {data   : 'data_jadwal.data_mk.nama',     name: 'data_jadwal.data_mk.nama'   },
+                {data   : 'data_jadwal.data_dosen.nama',  name: 'data_jadwal.data_dosen.nama', defaultContent: '-'},
+                {data   : 'hari_pindah',                  name: 'hari_pindah'},
                 {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
-                {data   : 'jam_mulai',                    name: 'jam_mulai' },
-                {data   : 'status',                       name: 'status'},
+                {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
+                {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
                 {data   : 'aksi',                         name: 'status'},
             ]
         });
