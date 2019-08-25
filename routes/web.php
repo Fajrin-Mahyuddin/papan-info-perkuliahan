@@ -10,6 +10,30 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('screen', 'ScreenController@index');
+Route::get('screen/jadwal/ajaxJadwal', 'ScreenController@ajaxJadwal')->name('screen.jadwal');
+Route::get('screen/jadwal/pindah/ajaxPindah', 'ScreenController@ajaxPindah')->name('screen.jadwal.pindah');
+
+Route::get('testing', function() {
+    // $data = \App\Model\JadwalKuliah::get();
+    // event(new \App\Events\JadwalEvent($data));
+    // $options = array(
+    //     'cluster' => 'ap1',
+    //     'useTLS' => true
+    //   );
+    //   $pusher = new Pusher\Pusher(
+    //     '1670cfe8b56094b466a8',
+    //     '00d5624e956ec4d21e80',
+    //     '849340',
+    //     $options
+    //   );
+    
+    //   $data['message'] = 'hello world';
+    //   $pusher->trigger('channel-jadwal', 'event-jadwal', $data);
+    return 'ok';
+});
+
 Route::get('/', function () {
     return view('login');
 })->middleware('guest');
@@ -36,9 +60,10 @@ Route::get('/register', function () {
 
 // Administrator
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admin']], function() {
-    Route::get('/', function () {
-        return view('administrator.index');
-    });
+    Route::get('/', 'AdminController@index');
+
+    Route::get('password/ubah', 'AdminController@password');
+    Route::post('password/update', 'AdminController@update');
 
     Route::get('jadwal/daftar', 'JadwalController@index');
     Route::post('jadwal/tambah', 'JadwalController@store');
@@ -49,9 +74,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admi
     Route::get('pindah/jadwal/daftar', 'PindahController@index');
     Route::get('pindah/jadwal/daftar/tambah/{id}', 'PindahController@edit');
     Route::post('pindah/jadwal/daftar/ubah', 'PindahController@update');
-    Route::post('pindah/jadwal/tambah', 'PindahController@store');
-    Route::post('pindah/jadwal/ubah', 'PindahController@store');
-    Route::post('pindah/jadwal/hapus', 'PindahController@destroy');
+    Route::post('pindah/jadwal/daftar/hapus', 'PindahController@destroy');
     Route::get('pindah/jadwal/daftar/ajaxData', 'PindahController@ajaxData')->name('pindah.jadwal.daftar.ajax');
 
     Route::get('informasi/daftar', 'InformasiController@index');
@@ -89,9 +112,21 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admi
     
 // Dosen
 Route::group(['prefix' => 'dosen', 'middleware' => ['auth', 'AuthMiddleware:dosen']], function() {
-    Route::get('/', function () {
-        return view('dosen.index');
-    });
+
+    Route::get('/', 'DosenController@index');
+    Route::post('generate/status', 'DosenController@generate');
+    Route::get('password/ubah', 'DosenController@password');
+    Route::post('password/update', 'DosenController@post_password');
+
+    Route::get('jadwal/daftar/ajaxJadwal', 'DataDosenController@ajaxJadwal')->name('dosen.jadwal.daftar.ajax');
+    Route::get('jadwal/daftar', 'DataDosenController@jadwalIndex');
+    
+    Route::get('pindah/jadwal/daftar', 'DataDosenController@pindahIndex');
+    Route::get('pindah/jadwal/daftar/tambah/{id}', 'DataDosenController@edit');
+    Route::post('pindah/jadwal/daftar/ubah', 'DataDosenController@update');
+    Route::post('pindah/jadwal/daftar/hapus', 'DataDosenController@destroy');
+    Route::get('pindah/jadwal/daftar/ajaxPindah', 'DataDosenController@ajaxPindah')->name('dosen.pindah.jadwal.daftar.ajax');
+
     Route::get('profil', function () {
         return view('dosen.profil');
     });

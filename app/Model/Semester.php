@@ -10,9 +10,9 @@ class Semester extends Model
     protected $primaryKey   = 'id_semester';
     protected $fillable     = ['tahun_semester', 'status', 'ket', 'created_at', 'updated_at'];
 
-    public static function getSemester()
-    {
-        return $this->tahun_semester;
-    }
+    // public static function getSemester()
+    // {
+    //     return $this->tahun_semester;
+    // }
     
 }

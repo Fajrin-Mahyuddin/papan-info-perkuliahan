@@ -69,7 +69,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btn-submit" class="btn btn-primary btn-sm" data-submit="">Hapus</button>
+                <button type="button" id="btn-submit" class="btn btn-danger btn-sm" data-submit="">Hapus</button>
             </div>
         </div>
     </div>
@@ -100,7 +100,7 @@
                 {data   : 'aksi',                         name: 'status'},
             ]
         });
-
+        
         $(document).on('click', '#btn-batal', function() {
             $('#form-jadwal').hide('slide', {direction:'right'}, 500 , function() {
                 $('#content-jadwal').show('slide');
@@ -123,7 +123,7 @@
         });
 
         $(document).on('click', '.btn-edit-action', function() {
-            $('#content-jadwal').hide('slide', {direction:'right'}, function() {
+            $('#content-jadwal').hide('slide', {direction:'right'}, 500 , function() {
                 $('#form-jadwal').show('slide');
             });
             $('#id_jadwal').val($(this).data('id'));

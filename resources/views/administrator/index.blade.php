@@ -18,8 +18,10 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text">$<span class="count">23569</span></div>
-                                    <div class="stat-heading">Revenue</div>
+                                    @if(AdminHelper::getSemester())
+                                        <div class="stat-text">{{AdminHelper::getSemester()->tahun_semester}}</div>
+                                        <div class="stat-heading">{{AdminHelper::getSemester()->ket}}</div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -36,8 +38,8 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">3435</span></div>
-                                    <div class="stat-heading">Sales</div>
+                                    <div class="stat-text"><span class="count">{{$kelas}}</span></div>
+                                    <div class="stat-heading">Jumlah Kelas</div>
                                 </div>
                             </div>
                         </div>
@@ -54,8 +56,8 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">349</span></div>
-                                    <div class="stat-heading">Templates</div>
+                                    <div class="stat-text"><span class="count">{{$mk}}</span></div>
+                                    <div class="stat-heading">Mata Kuliah</div>
                                 </div>
                             </div>
                         </div>
@@ -72,8 +74,8 @@
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">2986</span></div>
-                                    <div class="stat-heading">Clients</div>
+                                    <div class="stat-text"><span class="count">{{$dosen}}</span></div>
+                                    <div class="stat-heading">Dosen Terdaftar</div>
                                 </div>
                             </div>
                         </div>
@@ -91,53 +93,18 @@
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
-                            <table class="table table-striped">
+                            <table id="jadwal-table" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
+                                        <th>Nama</th>
+                                        <th>Dosen</th>
+                                        <th>Hari</th>
+                                        <th>Kelas</th>
+                                        <th>Jam</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
                             </table>
-
                         </div> <!-- /.col-lg-12 -->
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
@@ -151,57 +118,22 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Traffic </h4>
+                        <h4 class="box-title">Jadwal yang di pindahkan </h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
-                            <table class="table table-striped">
+                            <table id="pindah-table" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
+                                        <th>Nama</th>
+                                        <th>Dosen</th>
+                                        <th>Kelas</th>
+                                        <th>Jam</th>
+                                        <th>Tanggal</th>
+                                        <th>status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
                             </table>
-
                         </div> <!-- /.col-lg-12 -->
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
@@ -218,3 +150,38 @@
 
 
 @endsection
+
+@push('script')
+<script>
+    jQuery(document).ready(function($) {
+        
+        $('#jadwal-table').DataTable({
+            processing  : true,
+            serverSide  : true,
+            ajax        : '{{route("jadwal.daftar.ajax")}}',
+            columns     : [
+                {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
+                {data   : 'data_dosen.nama',              name: 'data_dosen.nama', defaultContent: '-'},
+                {data   : 'hari',                         name: 'hari'},
+                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'jam_mulai',                    name: 'jam_mulai' },
+                {data   : 'status',                       name: 'status'},
+            ]
+        });
+        
+        $('#pindah-table').DataTable({
+            processing  : true,
+            serverSide  : true,
+            ajax        : '{{route("pindah.jadwal.daftar.ajax")}}',
+            columns     : [
+                {data   : 'mk',                           name: 'mk'   },
+                {data   : 'dosen',                        name: '-'},
+                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
+                {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
+                {data   : 'ket',                       name: 'ket' },
+            ]
+        });
+    });
+</script>
+@endpush

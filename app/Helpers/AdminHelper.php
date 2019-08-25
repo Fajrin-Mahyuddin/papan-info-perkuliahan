@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Auth;
 use App\Model\Semester;
 
 class AdminHelper {
@@ -13,5 +14,15 @@ class AdminHelper {
       return $take;
       
   }
+
+  public static function toggleStatus()
+    {
+        $status = Auth::user()->data_dosen->status;
+        if( $status === 'aktif') {
+          Auth::user()->data_dosen->update(['status' => 'nonAktif']);
+        } else {
+          Auth::user()->data_dosen->update(['status' => 'aktif']);
+        }
+    }
 
 }

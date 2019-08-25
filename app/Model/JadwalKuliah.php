@@ -34,4 +34,9 @@ class JadwalKuliah extends Model
     {
         return  $this->belongsTo('App\Model\Semester', 'id_semester');
     }
+
+    public function data_pindah()
+    {
+        return $this->hasOne('App\Model\PindahJadwal', 'id_jadwal');
+    }
 }

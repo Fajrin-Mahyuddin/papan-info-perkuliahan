@@ -4,164 +4,50 @@
 
 @section('content')
 
-<div class="breadcrumbs">
-    <div class="breadcrumbs-inner">
-        <div class="row m-0">
-            <div class="col-sm-4">
-                <div class="page-header float-left">
-                    <div class="page-title">
-                        <h1>Selamat Datang {{Auth::user()->data_dosen->nama}}</h1>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="page-header float-right">
-                    <div class="page-title">
-                        <ol class="breadcrumb text-right">
-                            <li><span>Sabtu, 17 Agustus 2019</span></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="content">
     <!-- Animated -->
     <div class="animated fadeIn">
         <!-- Widgets  -->
         <div class="row">
-            <div class="col-lg-3 col-md-6">
+             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-1">
-                                <i class="pe-7s-cash"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text">$<span class="count">23569</span></div>
-                                    <div class="stat-heading">Revenue</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="card-header">
+                        <h4 class="box-title">Kesediaan mengajar hari ini {{\Carbon\Carbon::parse(now())->isoFormat('dddd, DD MMMM YYYY')}} </h4>
                     </div>
+                    <div class="card-content mt-3">
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <h4>{{Auth::user()->data_dosen->nama}} - status : 
+                                <span class="badge status {{(Auth::user()->data_dosen->status === 'aktif') ? 'badge-success' : 'badge-dark'}}">{{Auth::user()->data_dosen->status}}</span>
+                            </h4> 
+                            <hr>
+                            <a href="#" id="generate" class="btn-primary btn btn-lg">Generate</a>
+                        </div> <!-- /.col-lg-12 -->
+                    </div> <!-- /.row -->
+                    <div class="card-body"></div>
                 </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-2">
-                                <i class="pe-7s-cart"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">3435</span></div>
-                                    <div class="stat-heading">Sales</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-3">
-                                <i class="pe-7s-browser"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">349</span></div>
-                                    <div class="stat-heading">Templates</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="stat-widget-five">
-                            <div class="stat-icon dib flat-color-4">
-                                <i class="pe-7s-users"></i>
-                            </div>
-                            <div class="stat-content">
-                                <div class="text-left dib">
-                                    <div class="stat-text"><span class="count">2986</span></div>
-                                    <div class="stat-heading">Clients</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div><!-- /# column -->
         </div>
         <!-- /Widgets -->
-        
         <!--  Traffic 1 -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Traffic </h4>
+                        <h4 class="box-title">Jadwal Mengajar {{Auth::user()->data_dosen->nama}} </h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
-                            <table class="table table-striped">
+                            <table id="jadwal-table" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
+                                        <th>Nama</th>
+                                        <th>Hari</th>
+                                        <th>Kelas</th>
+                                        <th>Jam</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
                             </table>
-
                         </div> <!-- /.col-lg-12 -->
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
@@ -175,57 +61,21 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Traffic </h4>
+                        <h4 class="box-title">Jadwal mengajar yang di pindahkan</h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
-                            <table class="table table-striped">
+                            <table id="pindah-table" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">First</th>
-                                        <th scope="col">Last</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
-                                        <th scope="col">Handle</th>
+                                        <th>Nama</th>
+                                        <th>Kelas</th>
+                                        <th>Jam</th>
+                                        <th>Tanggal</th>
+                                        <th>status</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
-                                        <td>Otto</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                        <td>@mdo</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Jacob</td>
-                                        <td>Thornton</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                        <td>@fat</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Larry</td>
-                                        <td>the Bird</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                        <td>@twitter</td>
-                                    </tr>
-                                </tbody>
                             </table>
-
                         </div> <!-- /.col-lg-12 -->
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
@@ -242,3 +92,59 @@
 
 
 @endsection
+
+@push('script')
+<script>
+    jQuery(document).ready(function($) {
+        
+        $('#jadwal-table').DataTable({
+            processing  : true,
+            serverSide  : true,
+            ajax        : '{{route("dosen.jadwal.daftar.ajax")}}',
+            columns     : [
+                {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
+                {data   : 'hari',                         name: 'hari'},
+                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'jam_mulai',                    name: 'jam_mulai' },
+                {data   : 'status',                       name: 'status'},
+            ]
+        });
+        
+        $('#pindah-table').DataTable({
+            processing  : true,
+            serverSide  : true,
+            ajax        : '{{route("dosen.pindah.jadwal.daftar.ajax")}}',
+            columns     : [
+                {data   : 'mk',                           name: 'mk'   },
+                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
+                {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
+                {data   : 'ket',                       name: 'ket' },
+            ]
+        });
+
+        $('#generate').on('click', function() {
+            var status = "";
+            $.ajax({
+                dataType: 'json',
+                type    : 'post',
+                url     : 'dosen/generate/status',
+                data    :{ 
+                    status : status,
+                },
+                success: function(response) {
+                    if(response.data === 'aktif') {
+                        $('span.status').removeClass('badge-dark');
+                        $('span.status').addClass('badge-success');
+                    } else{
+                        $('span.status').removeClass('badge-success');
+                        $('span.status').addClass('badge-dark');
+                    }
+                    $('span.status').html(response.data);
+                }
+            });
+        });
+
+    });
+</script>
+@endpush

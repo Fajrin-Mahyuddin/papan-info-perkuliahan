@@ -18,7 +18,7 @@
                         
                         <div class="col-md-12">
                             <!-- Table -->
-                                @include('administrator.pindah.table')
+                                @include('dosen.pindah.table')
                             <!-- Batas Table -->                
                         </div>
 
@@ -70,10 +70,9 @@
         $('#pindah-table').DataTable({
             processing  : true,
             serverSide  : true,
-            ajax        : '{{route("pindah.jadwal.daftar.ajax")}}',
+            ajax        : '{{route("dosen.pindah.jadwal.daftar.ajax")}}',
             columns     : [
                 {data   : 'mk',                           name: 'mk'   },
-                {data   : 'dosen',                        name: '-'},
                 {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
                 {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
                 {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
@@ -140,21 +139,7 @@
                     id_jadwal   : id_jadwal,
                 }, 
                 success : function(data) {
-                    
-
-                    if(data.others) {
-                        $('#form-jadwal').hide('slide', {direction:'right'}, function() {
-                            $('#content-jadwal').show('slide');
-                        });
-                        $('#status_alert').removeClass('alert-success');
-                        $('#status_alert').addClass('alert-danger');
-                        $('#status_alert').show('slow');
-                        $('#status_alert').html(data.others);
-                        setTimeout(() => {
-                            $('#status_alert').hide('slow');
-                        }, 4000);
-                        return false;
-                    }
+                   
 
                     // $('form')[0].reset();
                     $('#pindah-table').DataTable().ajax.reload();

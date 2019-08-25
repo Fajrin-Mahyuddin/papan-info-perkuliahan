@@ -21,8 +21,15 @@ class PindahController extends Controller
         $data   = PindahJadwal::with('data_jadwal', 'data_kelas')->get();
 
         return DataTables::of($data)->addIndexColumn()
-                                    ->addColumn('aksi', function($data) {
-                                        return '<a href="#" class="btn-edit-active"><i class="fa fa-pencil"></i></a>';
+                                    ->addColumn('mk', function($data) {
+                                        return  $data->data_jadwal->data_mk->nama;
+                                    })->addColumn('dosen', function($data) {
+                                        if(!empty($data->data_jadwal->data_dosen->nama)){
+                                            return  $data->data_jadwal->data_dosen->nama;
+                                        }
+                                        return  '-';
+                                    })->addColumn('aksi', function($data) {
+                                        return '<a href="#" data-id="'.$data->id_pindah.'" data-id_jadwal="'.$data->id_jadwal.'" data-nama="'.$data->data_jadwal->data_mk->nama.'" class="btn-delete-action"><i class="fa fa-trash"></i></a>';
                                     })->escapeColumns([])->make(true);
     }
 
@@ -48,13 +55,34 @@ class PindahController extends Controller
             return redirect('admin/jadwal/daftar');
         }
 
-        $kelas = Kelas::get()->except($isValid['data']->id_kelas);
+        $kelas = Kelas::get()->except($isValid['data']->id_kelas);  
         
         return view('administrator.pindah.form_pindah')->with(['data' => $isValid['data'], 'kelas' => $kelas]);
     }
 
     public function update(Request $request)
     {
-        dd($request->all());
+
+        $pindah     = PindahJadwal::updateOrCreate([
+            'id_jadwal'         => $request->id_jadwal
+        ],[
+           'id_jadwal'          => $request->id_jadwal,
+           'id_kelas'           => $request->id_kelas,
+           'jam_mulai_pindah'   => $request->jam_mulai_pindah,
+           'jam_akhir_pindah'   => $request->jam_akhir_pindah,
+           'tgl_pindah'         => $request->tgl_pindah  
+        ]);
+        $pindah->data_jadwal->where('id_jadwal', $request->id_jadwal)->update(['status' => 'pindah']);
+
+        return redirect('admin/pindah/jadwal/daftar')->with('status', 'Success !');
     }
+
+    public function destroy(Request $request)
+    {
+        $update = JadwalKuliah::where('id_jadwal', $request->id_jadwal)->update(['status' => '-']);
+        $delete = PindahJadwal::destroy($request->id);
+
+        return response()->json(['data' => 'data']);
+    }
+    
 }

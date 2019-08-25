@@ -6,7 +6,6 @@
     <thead>
         <tr>
             <th>Nama</th>
-            <th>Dosen</th>
             <th>Kelas</th>
             <th>Jam</th>
             <th>Tanggal</th>

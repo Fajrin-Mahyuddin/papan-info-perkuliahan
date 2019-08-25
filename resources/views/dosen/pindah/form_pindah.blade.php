@@ -17,16 +17,17 @@
                     <div class="card-content mt-5">
                         <div class="col-lg-10 offset-md-2">
                             <!-- Content detail -->
-                            <form action="{{url('admin/pindah/jadwal/daftar/ubah')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
+                            <form action="{{url('dosen/pindah/jadwal/daftar/ubah')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                @csrf
                                 <div class="row form-group">
                                     <div class="col col-md-3"><label for="id_kelas" class="form-control-label">Kelas</label></div>
                                     :<div class="col-12 col-md-7">
+                                    
                                         <select name="id_kelas" id="id_kelas" data-style="btn-primary" class="form-control form-control-sm selectpicker" required>
                                             @if($data->id_kelas !== null)
-                                                <option value="{{$data->id_kelas}}">{{$data->data_kelas->nama}}</option>
+                                            <option value="{{$data->id_kelas}}">{{$data->data_kelas->nama}}</option>
                                             @else
-                                                <option value="">--Pilih--</option>
+                                            <option value="">--Pilih--</option>
                                             @endif
                                             @foreach($kelas as $val)
                                                 <option value="{{$val->id_kelas}}">{{$val->nama}}</option>

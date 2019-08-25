@@ -14,8 +14,8 @@
                 </a>
 
                 <div class="user-menu dropdown-menu">
-                    <a class="nav-link" href="#"><i class="fa fa-angle-double-right"></i> My Profile</a>
-                    <a class="nav-link" href="#"><i class="fa fa-angle-double-right"></i> Settings</a>
+
+                    <a class="nav-link" href="{{url(Auth::user()->level.'/password/ubah')}}"><i class="fa fa-angle-double-right"></i> Ganti Password</a>
                     <a class="nav-link" href="{{url('logout')}}"><i class="fa fa-angle-double-right"></i> Logout</a>
                 </div>
             </div>
