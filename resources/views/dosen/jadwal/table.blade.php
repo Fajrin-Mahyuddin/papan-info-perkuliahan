@@ -3,9 +3,10 @@
     <thead>
         <tr>
             <th>Nama</th>
-            <th>Hari</th>
             <th>Kelas</th>
-            <th>Jam</th>
+            <th>Hari</th>
+            <th>Masuk</th>
+            <th>Keluar</th>
             <th>Status</th>
             <th>Aksi</th>
         </tr>

@@ -114,18 +114,22 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admi
 Route::group(['prefix' => 'dosen', 'middleware' => ['auth', 'AuthMiddleware:dosen']], function() {
 
     Route::get('/', 'DosenController@index');
-    Route::post('generate/status', 'DosenController@generate');
+    Route::get('generate/status', 'DosenController@generate');
     Route::get('password/ubah', 'DosenController@password');
     Route::post('password/update', 'DosenController@post_password');
 
+    Route::get('jadwal/daftar/ajaxToday', 'DataDosenController@jadwalToday')->name('dosen.jadwal.daftar.today');
     Route::get('jadwal/daftar/ajaxJadwal', 'DataDosenController@ajaxJadwal')->name('dosen.jadwal.daftar.ajax');
     Route::get('jadwal/daftar', 'DataDosenController@jadwalIndex');
+    Route::get('jadwal/daftar/masuk/{id}', 'DataDosenController@generateMasuk');
+    Route::get('jadwal/daftar/keluar/{id}', 'DataDosenController@generateKeluar');
     
     Route::get('pindah/jadwal/daftar', 'DataDosenController@pindahIndex');
     Route::get('pindah/jadwal/daftar/tambah/{id}', 'DataDosenController@edit');
     Route::post('pindah/jadwal/daftar/ubah', 'DataDosenController@update');
     Route::post('pindah/jadwal/daftar/hapus', 'DataDosenController@destroy');
     Route::get('pindah/jadwal/daftar/ajaxPindah', 'DataDosenController@ajaxPindah')->name('dosen.pindah.jadwal.daftar.ajax');
+    Route::get('pindah/jadwal/daftar/ajaxToday', 'DataDosenController@pindahToday')->name('dosen.pindah.jadwal.daftar.today');
 
     Route::get('profil', function () {
         return view('dosen.profil');

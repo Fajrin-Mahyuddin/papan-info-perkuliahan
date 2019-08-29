@@ -16,4 +16,9 @@ class Dosen extends Model
         return $this->belongsTo('App\Model\User', 'id_user');
     }
 
+    public function data_jadwal()
+    {
+        return $this->hasMany('App\Model\JadwalKuliah', 'id_jadwal');
+    }
+
 }

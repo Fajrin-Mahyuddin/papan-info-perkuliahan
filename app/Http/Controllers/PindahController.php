@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Validator;
 use DataTables;
+use Carbon\Carbon;
 use App\Model\Kelas;
+use App\Events\HapusEvent;
+use App\Events\JadwalEvent;
+use App\Events\PindahEvent;
 use App\Model\PindahJadwal;
 use App\Model\JadwalKuliah;
 use Illuminate\Http\Request;
@@ -72,14 +76,28 @@ class PindahController extends Controller
            'jam_akhir_pindah'   => $request->jam_akhir_pindah,
            'tgl_pindah'         => $request->tgl_pindah  
         ]);
-        $pindah->data_jadwal->where('id_jadwal', $request->id_jadwal)->update(['status' => 'pindah']);
 
+        $pindah->data_jadwal->where('id_jadwal', $request->id_jadwal)->update(['status' => 'pindah']);
+        $hari = Carbon::parse(now())->isoFormat('dddd');
+        $jadwal = JadwalKuliah::with(['data_mk', 'data_dosen', 'data_kelas'])->where('id_jadwal', $pindah->id_jadwal)->where('hari', $hari)->first();
+        $pindah = PindahJadwal::with(['data_jadwal', 'data_jadwal.data_mk', 'data_jadwal.data_dosen', 'data_kelas'])->where('id_jadwal', $pindah->id_jadwal)->first();
+        if($jadwal){
+            event(new JadwalEvent($jadwal));
+        }
+        event(new PindahEvent($pindah));
         return redirect('admin/pindah/jadwal/daftar')->with('status', 'Success !');
     }
 
     public function destroy(Request $request)
     {
+        $id = $request->id;
+        $hari = Carbon::parse(now())->isoFormat('dddd');
+        $jadwal = JadwalKuliah::with(['data_mk', 'data_dosen', 'data_kelas'])->where('id_jadwal', $request->id_jadwal)->where('hari', $hari)->first();
         $update = JadwalKuliah::where('id_jadwal', $request->id_jadwal)->update(['status' => '-']);
+        if($jadwal) {
+            event(new JadwalEvent($jadwal));
+        }
+        event(new HapusEvent($id));
         $delete = PindahJadwal::destroy($request->id);
 
         return response()->json(['data' => 'data']);

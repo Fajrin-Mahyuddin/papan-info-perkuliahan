@@ -72,50 +72,15 @@
             serverSide  : true,
             ajax        : '{{route("dosen.pindah.jadwal.daftar.ajax")}}',
             columns     : [
-                {data   : 'mk',                           name: 'mk'   },
-                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
-                {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
-                {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
-                {data   : 'ket',                       name: 'ket' },
-                {data   : 'aksi',                         name: 'aksi'},
+                {data   : 'data_mk.nama',                     name: 'data_mk.nama'   },
+                {data   : 'data_pindah.data_kelas.nama',      name: 'data_pindah.data_kelas.nama', defaultContent: '-'},
+                {data   : 'data_pindah.jam_mulai_pindah',     name: 'data_pindah.jam_mulai_pindah' },
+                {data   : 'data_pindah.jam_akhir_pindah',     name: 'data_pindah.jam_akhir_pindah' },
+                {data   : 'tgl_pindah',                       name: 'tgl_pindah' },
+                {data   : 'data_pindah.ket',                  name: 'data_pindah.ket' },
+                {data   : 'aksi',                             name: 'aksi'},
             ]
         });
-
-        // $(document).on('click', '#btn-batal', function() {
-        //     $('#form-jadwal').hide('slide', {direction:'right'}, 500 , function() {
-        //         $('#content-jadwal').show('slide');
-        //     });
-        // });
-
-        // $(document).on('click', '#tambah', function() {
-        //     $('#content-jadwal').hide('slide', {direction:'right'}, 500 , function() {
-        //         $('#form-jadwal').show('slide');
-        //     });
-        //     $('#id_jadwal').val('');
-        //     $('#id_mk').selectpicker('val', '');
-        //     $('#id_dosen').selectpicker('val', '');
-        //     $('#id_kelas').selectpicker('val', '');
-        //     $('#hari').selectpicker('val', '');
-        //     $('#id_semester').val('');
-        //     $('#jam_mulai').val('7:00');
-        //     $('#jam_akhir').val('7:00');
-        //     $('#btn-submit').data('submit', 'tambah');
-        // });
-
-        // $(document).on('click', '.btn-edit-action', function() {
-        //     $('#content-jadwal').hide('slide', {direction:'right'}, function() {
-        //         $('#form-jadwal').show('slide');
-        //     });
-        //     $('#id_jadwal').val($(this).data('id'));
-        //     $('#id_dosen').selectpicker('val', $(this).data('dosen'));
-        //     $('#id_mk').selectpicker('val', $(this).data('mk'));
-        //     $('#id_kelas').selectpicker('val', $(this).data('kelas'));
-        //     $('#hari').selectpicker('val', $(this).data('hari'));
-        //     $('#jam_mulai').val($(this).data('jam_mulai'));
-        //     $('#jam_akhir').val($(this).data('jam_akhir'));
-        //     $('#id_semester').val($(this).data('semester'));
-        //     $('#btn-submit').data('submit', 'ubah');
-        // });
 
         $(document).on('click', '.btn-delete-action', function() {
             $('.modal-body b').html($(this).data('nama'));
@@ -139,16 +104,11 @@
                     id_jadwal   : id_jadwal,
                 }, 
                 success : function(data) {
-                   
 
-                    // $('form')[0].reset();
                     $('#pindah-table').DataTable().ajax.reload();
                     
                     $('#myModal').modal('hide');
                     $('.alert-hapus').collapse('show');
-                    // $('#status_alert').removeClass('alert-danger');
-                    // $('#status_alert').addClass('alert-success');
-                    // $('#status_alert').html(data.success);
 
                     setTimeout(() => {
                         $('.alert-hapus').collapse('hide');

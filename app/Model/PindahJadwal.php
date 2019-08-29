@@ -10,7 +10,7 @@ class PindahJadwal extends Model
     protected $primaryKey   = 'id_pindah';
     protected $fillable     = ['id_jadwal', 'id_kelas', 'jam_mulai_pindah', 'jam_akhir_pindah', 'tgl_pindah', 'ket'];
     public $timestamps      = false;
-    protected $attributes   = ['ket' => 'aktif'];
+    protected $attributes   = ['ket' => '-'];
 
     public function data_jadwal()
     {

@@ -6,6 +6,7 @@ use Auth;
 use Validator;
 use DataTables;
 use AdminHelper;
+use Carbon\Carbon;
 use App\Model\Dosen;
 use App\Model\Kelas;
 use App\Model\MataKuliah;
@@ -18,9 +19,12 @@ class JadwalController extends Controller
 {
     public function index()
     {
+        // $a = date('28-08-2019 10:20:00');
+        // $b = Carbon::parse($a)->diffForHumans();
+        
         $dosen  = Dosen::get()->except(Auth::user()->data_dosen->id_dosen);
         $mk     = MataKuliah::where('ket', 'aktif')->get();
-        $kelas  = Kelas::get();
+        $kelas  = Kelas::where('ket', 'aktif')->get();
         
         return view('administrator.jadwal.index')->with(['dosens' => $dosen, 'kelass' => $kelas, 'mks' => $mk]);
     }
@@ -71,9 +75,11 @@ class JadwalController extends Controller
                 'jam_akhir'   => $request->jam_akhir,
         ]);
         
-        $data = $jadwal->with(['data_mk', 'data_dosen', 'data_kelas'])->where('id_jadwal', $jadwal->id_jadwal)->first();
-        
-        event(new JadwalEvent($data));
+        $hari = \Carbon\Carbon::parse(now())->isoFormat('dddd');
+        $data = $jadwal->with(['data_mk', 'data_dosen', 'data_kelas'])->where('id_jadwal', $jadwal->id_jadwal)->where('hari', $hari)->first();
+        if($data) {
+            event(new JadwalEvent($data));
+        }
 
         return response()->json(['success' => 'Success !']);        
     }

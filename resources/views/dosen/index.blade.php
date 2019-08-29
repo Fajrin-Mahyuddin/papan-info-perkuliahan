@@ -12,7 +12,7 @@
              <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="box-title">Kesediaan mengajar hari ini {{\Carbon\Carbon::parse(now())->isoFormat('dddd, DD MMMM YYYY')}} </h4>
+                        <h4 class="box-title">Kesediaan mengajar hari ini {{Carbon\Carbon::parse(now())->isoFormat('dddd, DD MMMM YYYY')}} </h4>
                     </div>
                     <div class="card-content mt-3">
                         <div class="col-lg-12 col-md-12 text-center">
@@ -20,7 +20,7 @@
                                 <span class="badge status {{(Auth::user()->data_dosen->status === 'aktif') ? 'badge-success' : 'badge-dark'}}">{{Auth::user()->data_dosen->status}}</span>
                             </h4> 
                             <hr>
-                            <a href="#" id="generate" class="btn-primary btn btn-lg">Generate</a>
+                            <a href="{{url('dosen/generate/status')}}" class="btn-primary btn btn-lg">Generate</a>
                         </div> <!-- /.col-lg-12 -->
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
@@ -28,23 +28,25 @@
             </div><!-- /# column -->
         </div>
         <!-- /Widgets -->
-        <!--  Traffic 1 -->
+
+        <!--  Traffic 3 -->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Jadwal Mengajar {{Auth::user()->data_dosen->nama}} </h4>
+                        <h4 class="box-title">Jadwal mengajar hari ini</h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
-                            <table id="jadwal-table" class="table table-striped">
+                            <table id="jadwal-today" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>Hari</th>
-                                        <th>Kelas</th>
-                                        <th>Jam</th>
-                                        <th>Status</th>
+                                        <th>Ruangan</th>
+                                        <th>Masuk</th>
+                                        <th>Keluar</th>
+                                        <th>status</th>
+                                        <th>aksi</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -54,14 +56,14 @@
                 </div>
             </div><!-- /# column -->
         </div>
-        <!--  /Traffic 1 -->
+        <!--  /Traffic 3-->
 
          <!--  Traffic 2 -->
          <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Jadwal mengajar yang di pindahkan</h4>
+                        <h4 class="box-title">Jadwal mengajar yang di pindahkan hari ini</h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
@@ -69,10 +71,11 @@
                                 <thead>
                                     <tr>
                                         <th>Nama</th>
-                                        <th>Kelas</th>
-                                        <th>Jam</th>
-                                        <th>Tanggal</th>
+                                        <th>Ruangan</th>
+                                        <th>Masuk</th>
+                                        <th>Keluar</th>
                                         <th>status</th>
+                                        <th>Aksi</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -97,30 +100,47 @@
 <script>
     jQuery(document).ready(function($) {
         
-        $('#jadwal-table').DataTable({
+        $('#jadwal-today').DataTable({
             processing  : true,
             serverSide  : true,
-            ajax        : '{{route("dosen.jadwal.daftar.ajax")}}',
+            ajax        : '{{route("dosen.jadwal.daftar.today")}}',
             columns     : [
-                {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
-                {data   : 'hari',                         name: 'hari'},
-                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
-                {data   : 'jam_mulai',                    name: 'jam_mulai' },
-                {data   : 'status',                       name: 'status'},
-            ]
+                {data   : 'data_mk.nama',       name: 'data_mk.nama'   },
+                {data   : 'data_kelas.nama',    name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'jam_mulai',          name: 'jam_mulai' },
+                {data   : 'jam_akhir',          name: 'jam_akhir' },
+                {data   : 'status',             name: 'status'},
+                {data   : 'aksi',               name: 'aksi'},
+            ],
+            "rowCallback": function( row, data ) {
+                if ( data.status == "-") {
+                   $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span></span>');
+                } else {
+                   $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span> '+data.status+'</span>');
+                }
+  	        }
         });
         
         $('#pindah-table').DataTable({
             processing  : true,
             serverSide  : true,
-            ajax        : '{{route("dosen.pindah.jadwal.daftar.ajax")}}',
+            ajax        : '{{route("dosen.pindah.jadwal.daftar.today")}}',
             columns     : [
-                {data   : 'mk',                           name: 'mk'   },
-                {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
-                {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
-                {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
-                {data   : 'ket',                       name: 'ket' },
-            ]
+            
+                {data   : 'nama_mata_kuliah',       name: 'nama_mata_kuliah'   },
+                {data   : 'nama_kelas',    name: 'nama_kelas', defaultContent: '-'},
+                {data   : 'jam_mulai_pindah',          name: 'jam_mulai_pindah' },
+                {data   : 'jam_akhir_pindah',          name: 'jam_akhir_pindah' },
+                {data   : 'ket_pindah',             name: 'ket_pindah'},
+                {data   : 'aksi',               name: 'aksi'},
+            ],
+            "rowCallback": function( row, data ) {
+                if ( data.ket_pindah == "-") {
+                   $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span></span>');
+                } else {
+                   $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span> '+data.ket_pindah+'</span>');
+                }
+  	        }
         });
 
         $('#generate').on('click', function() {

@@ -48,9 +48,10 @@
             ajax        : '{{route("dosen.jadwal.daftar.ajax")}}',
             columns     : [
                 {data   : 'data_mk.nama',                 name: 'data_mk.nama'   },
-                {data   : 'hari',                         name: 'hari'},
                 {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'hari',                         name: 'hari'},
                 {data   : 'jam_mulai',                    name: 'jam_mulai' },
+                {data   : 'jam_akhir',                    name: 'jam_akhir' },
                 {data   : 'status',                       name: 'status'},
                 {data   : 'aksi',                         name: 'status'},
             ]

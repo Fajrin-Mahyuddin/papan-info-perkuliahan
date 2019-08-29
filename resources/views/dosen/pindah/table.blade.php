@@ -7,7 +7,8 @@
         <tr>
             <th>Nama</th>
             <th>Kelas</th>
-            <th>Jam</th>
+            <th>Masuk</th>
+            <th>Keluar</th>
             <th>Tanggal</th>
             <th>status</th>
             <th>Aksi</th>

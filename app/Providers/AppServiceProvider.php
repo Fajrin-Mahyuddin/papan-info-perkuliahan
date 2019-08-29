@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 // use App\Model\Semester;
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +25,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       
+        // setlocale(LC_TIME, 'id');
+        // setlocale(LC_ALL, 'id');
+        // config(['app.locale' => 'id']);
+        setlocale(LC_ALL, 'id_ID.utf8');
+        Carbon::setLocale('id_ID.utf8');
+        // Carbon::setLocale('id_ID.utf8');
+        date_default_timezone_set('Asia/Singapore');
     }
 }

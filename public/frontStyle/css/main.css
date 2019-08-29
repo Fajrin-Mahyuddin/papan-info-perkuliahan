@@ -297,3 +297,18 @@ iframe {
     width: 100% !important;
   }
 }
+
+/* css Tambahan */
+
+.aktif {
+  color:#4cd137;
+}
+
+.nonAktif {
+  color: #e84118;
+}
+
+#status-kelas > .badge {
+  font-weight: bold;
+  font-size: 16px;
+}
