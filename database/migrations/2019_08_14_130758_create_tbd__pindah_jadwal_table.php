@@ -16,6 +16,7 @@ class CreateTbdPindahJadwalTable extends Migration
         Schema::create('tbd_pindah_jadwal', function (Blueprint $table) {
             $table->increments('id_pindah');
             $table->integer('id_jadwal')->unsigned();
+            $table->string('kode_pindah');
             $table->foreign('id_jadwal')->references('id_jadwal')->on('tbd_jadwal_kuliah')->onDelete('cascade');
             $table->integer('id_kelas')->unsigned()->nullable();
             $table->foreign('id_kelas')->references('id_kelas')->on('tbm_kelas')->onDelete('set null');

@@ -8,7 +8,7 @@ class PindahJadwal extends Model
 {
     protected $table        = 'tbd_pindah_jadwal';
     protected $primaryKey   = 'id_pindah';
-    protected $fillable     = ['id_jadwal', 'id_kelas', 'jam_mulai_pindah', 'jam_akhir_pindah', 'tgl_pindah', 'ket'];
+    protected $fillable     = ['id_jadwal', 'kode_pindah', 'id_kelas', 'jam_mulai_pindah', 'jam_akhir_pindah', 'tgl_pindah', 'ket'];
     public $timestamps      = false;
     protected $attributes   = ['ket' => '-'];
 

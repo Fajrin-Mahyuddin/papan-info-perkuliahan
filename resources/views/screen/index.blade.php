@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Table V02</title>
+	<title>Information Board</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="refresh" content="72000" />
@@ -12,6 +12,8 @@
 <!--===============================================================================================-->
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{{asset('frontStyle/fonts/font-awesome-4.7.0/css/font-awesome.min.css')}}">
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+
 <!--===============================================================================================-->
 	<!-- <link rel="stylesheet" type="text/css" href="{{asset('frontStyle/vendor/animate/animate.css')}}"> -->
 <!--===============================================================================================-->
@@ -35,7 +37,7 @@
 				</div>
 				<div class="wrap-table100">
 					<div class="pull-right" style="color: white; font-weight: bold; font-size: 20px; ">{{Carbon\Carbon::parse(now())->formatLocalized('%A, %d %B %Y')}}</div>
-					<div class="table" id="jadwal">
+					<div class="table jadwal-slide" id="jadwal">
 							<div class="row header">
 								<div class="cell">
 									Mata Kuliah
@@ -59,21 +61,18 @@
 									Status
 								</div>
 							</div>
-	
 					</div> <!--Table -->
 
-					<!-- contoh -->
-					<br><br>
-					<hr>
-					<br><br>
-					<div class="table" id="pindah-jadwal" >
-
+					<div class="table pindah-slide" id="pindah-jadwal" style="display:none">
 							<div class="row header">
 								<div class="cell">
-									Mata Kuliah
+									Mata Kuliah Pindah
 								</div>
 								<div class="cell">
-									Ruangan
+									Dari Ruangan
+								</div>
+								<div class="cell">
+									Ke Ruangan
 								</div>
 								<div class="cell">
 									Masuk
@@ -91,20 +90,26 @@
 									Status
 								</div>
 							</div>
-						
 					</div> <!--Table -->
 					
-					<br>
 					<hr>
 					<div id="status-kelas" class="pull-right">
 						@foreach($kelass as $kelas)
-							<span class="badge {{($kelas->status == 'aktif') ? 'badge-success':'badge-danger'}}">{{$kelas->nama}}</span>
+							<span class="badge {{$kelas->kode}} {{($kelas->status == 'aktif') ? 'badge-success':'badge-danger'}}" data-kode="{{$kelas->kode}}">{{$kelas->nama}}</span>
 						@endforeach
 						</div>
+					<br>
 					<!-- contoh -->
-
+				
 				</div>
 			</div> <!--batas col md 12-->
+				<div class="text-berjalan">
+					<marquee behavior="scrool" direction="left" class="info">
+						@foreach($informasi as $info)
+							<span class="{{$info->id_informasi}}" data-id="{{$info->id_informasi}}">{{$info->judul}} - {{$info->isi_informasi}} ||</span>
+						@endforeach
+					</marquee>
+				</div>
 		</div>
 	</div>
 
@@ -119,6 +124,8 @@
 	<script src="{{asset('frontStyle/vendor/bootstrap/js/bootstrap.min.js')}}"></script>
 	<script src="{{asset('frontStyle/js/moment.js')}}"></script>
 	<script src="{{asset('frontStyle/js/moment-with-locales.js')}}"></script>
+	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 	<script src="https://js.pusher.com/5.0/pusher.min.js"></script>
 
 <!--===============================================================================================-->
@@ -167,6 +174,9 @@
 									`+value.data_mk.nama+`
 								</div>
 								<div class="cell" data-title="Age">
+								`+value.data_kelas.nama+`
+								</div>
+								<div class="cell" data-title="Age">
 								`+option.data_kelas.nama+`
 								</div>
 								<div class="cell" data-title="Location">
@@ -207,10 +217,9 @@
 				type				: 'GET',
 				url					: '{{route("screen.jadwal.pindah")}}',
 				success: function(response) {
-						console.log(response);
 					$.each(response, function(index, value) {
 						$('#pindah-jadwal').append(`
-							<div class="row `+value.id_pindah+`" data-id="`+value.id_pindah+`">
+							<div class="row `+value.kode_pindah+`" data-id="`+value.kode_pindah+`">
 								`+addElementPindah(value.data_jadwal, value)+`
 							</div>
 						`);
@@ -218,23 +227,23 @@
 				}
 			});
 
-			// show_jadwal();
+			show_jadwal();
 
-			// function show_jadwal() {
-			// 	setTimeout(() => {
-			// 		$('#jadwal').toggle('slow', function() {
-			// 			$('#pindah-jadwal').toggle('slow', show_pindah);
-			// 		});
-			// 	}, 6000);
-			// }
+			function show_jadwal() {
+				setTimeout(() => {
+					$('.jadwal-slide').hide('slow', function() {
+						$('.pindah-slide').show('slow', show_pindah);
+					});
+				}, 9000);
+			}
 
-			// function show_pindah() {
-			// 	setTimeout(() => {
-			// 		$('#pindah-jadwal').toggle('slow', function() {
-			// 			$('#jadwal').toggle('slow', show_jadwal);
-			// 		});
-			// 	}, 6000);
-			// }
+			function show_pindah() {
+				setTimeout(() => {
+					$('.pindah-slide').hide('slow', function() {
+						$('.jadwal-slide').show('slow', show_jadwal);
+					});
+				}, 9000);
+			}
 
 			// Pusher
 
@@ -248,7 +257,6 @@
 			var change = pusher.subscribe('channel-jadwal');
 			change.bind('event-jadwal', function(response) {
 				var id = $('.'+response.data.id_jadwal).data('id');
-				// console.log(id);
 				if(id) {
 					$('.'+id).html(addElementHtml(response.data));
 				} else {
@@ -260,28 +268,14 @@
 				}
 			});
 
-			var status = pusher.subscribe('channel-status');
-			status.bind('event-status', function(response) {
-				var id = $('.'+response.data.id_dosen).data('id');
-				// console.log(id);
-				if(id && (response.data.status == 'aktif')) {
-					$('.'+id).removeClass('nonAktif');
-					$('.'+id).addClass('aktif');
-				} else {
-					$('.'+id).removeClass('aktif');
-					$('.'+id).addClass('nonAktif');
-				}
-			});
-
 			var pindah = pusher.subscribe('channel-pindah');
 			pindah.bind('event-pindah', function(response) {
-				console.log(response.data);
-				var id = $('.'+response.data.id_pindah).data('id');
+				var id = $('.'+response.data.kode_pindah).data('id');
 				if(id) {
 					$('.'+id).html(addElementPindah(response.data.data_jadwal, response.data));
 				} else {
 						$('#pindah-jadwal').append(`
-							<div class="row `+response.data.id_pindah+`" data-id="`+response.data.id_pindah+`">
+							<div class="row `+response.data.kode_pindah+`" data-id="`+response.data.kode_pindah+`">
 									`+addElementPindah(response.data.data_jadwal, response.data)+`
 							</div>
 						`);
@@ -289,9 +283,47 @@
 				
 			});
 
+			var status = pusher.subscribe('channel-status');
+			status.bind('event-status', function(response) {
+			
+				if(response.data.tipe === 'dosen') {
+					var dosen = $('.cell > .'+response.data.dosen.id_dosen).data('id');
+					if(dosen && (response.data.dosen.status == 'aktif')) {
+						$('.cell > .'+dosen).removeClass('nonAktif');
+						$('.cell > .'+dosen).addClass('aktif');
+					} else {
+						$('.cell > .'+dosen).removeClass('aktif');
+						$('.cell > .'+dosen).addClass('nonAktif');
+					}
+				} else if(response.data.tipe === 'kelas') {
+					var kelas = $('#status-kelas > .'+response.data.kelas.kode).data('kode');
+					if(kelas && (response.data.kelas.status == 'aktif')) {
+						$('#status-kelas > .'+kelas).removeClass('badge-danger');
+						$('#status-kelas > .'+kelas).addClass('badge-success');
+					} else {
+						$('#status-kelas > .'+kelas).removeClass('badge-success');
+						$('#status-kelas > .'+kelas).addClass('badge-danger');
+					}
+				}
+			});
+
+			var info = pusher.subscribe('channel-info');
+			info.bind('event-info', function(response) {
+					
+				if(response.data.tipe === 'ubah') {
+					var id = $('.info > span.'+response.data.info.id_informasi).data('id');
+					if(id) {
+						$('.info > span.'+response.data.info.id_informasi).html(response.data.info.judul+' - '+response.data.info.isi_informasi+' ||');
+					} else {
+						$('.info').append(`<span class="`+response.data.info.id_informasi+`" data-id=="`+response.data.info.id_informasi+`">`+response.data.info.judul+` - `+response.data.info.isi_informasi+` ||</span>`);
+					}
+				} else {
+					$('.info > span.'+response.data.info).remove();
+				}
+			});
+			
 			var hapus = pusher.subscribe('channel-hapus');
 			hapus.bind('event-hapus', function(response) {
-				console.log(response.data);
 					$('.'+response.data).remove();
 			});
 

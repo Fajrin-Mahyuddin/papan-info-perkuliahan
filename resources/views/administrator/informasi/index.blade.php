@@ -38,10 +38,7 @@
                                     :<div class="col col-md-7">
                                         <div class="form-check-inline form-check">
                                             <label for="inline-radio1" class="form-check-label mr-3">
-                                                <input type="radio" id="ket" name="ket" value="publish" class="form-check-input">Terbitkan
-                                            </label>
-                                            <label for="inline-radio2" class="form-check-label ">
-                                                <input type="radio" id="ket" name="ket" value="unpublish" class="form-check-input">Hanya Simpan
+                                                <input type="radio" id="ket" name="ket" value="publish" checked class="form-check-input">Terbitkan
                                             </label>
                                         </div>
                                     </div>
@@ -130,7 +127,14 @@ jQuery(document).ready(function($) {
             {data  : 'tahun_semester',  name    : 'tahun_semester'},
             {data  : 'ket',             name    : 'ket'},
             {data  : 'aksi',            name    : 'aksi'}
-        ]
+        ],
+        'rowCallback':function(row, data) {
+            if(data.ket === 'publish') {
+                $('td:eq(2)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span> '+data.ket+'</span>');
+            } else {
+                $('td:eq(2)', row).html('<span class="badge badge-warning"><span class="fa fa-times"></span> '+data.ket+'</span>');
+            }
+        }
     });
 
     $('#btn-cancel').on('click', function() {

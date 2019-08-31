@@ -50,6 +50,7 @@
                 <p>
                     <input type="hidden" id="id_pindah" value="">
                     <input type="hidden" id="id_jadwal" value="">
+                    <input type="hidden" id="kode_pindah" value="">
                     Jadwal Pindah <b></b> akan dihapus ?
                 </p>
             </div>
@@ -87,6 +88,7 @@
             $('#myModal').modal('show');
             $('#id_pindah').val($(this).data('id'));
             $('#id_jadwal').val($(this).data('id_jadwal'));
+            $('#kode_pindah').val($(this).data('kode_pindah'));
             $('#btn-submit').data('submit', 'hapus');
         });
         
@@ -94,6 +96,7 @@
           
             var id          = $('#id_pindah').val();
             var id_jadwal   = $('#id_jadwal').val();
+            var kode_pindah = $('#kode_pindah').val();
            
             $.ajax({
                 dataType    : 'json',
@@ -101,6 +104,7 @@
                 url         : 'daftar/hapus',
                 data        : {
                     id          : id,
+                    kode_pindah : kode_pindah,
                     id_jadwal   : id_jadwal,
                 }, 
                 success : function(data) {

@@ -12,6 +12,7 @@
             <div class="col-lg-12">
                 <div class="card" id="content-jadwal">
                     <div class="card-header">
+                        
                         <strong>Jadwal Kuliah</strong>
                     </div>
                     <div class="card-content mt-5">

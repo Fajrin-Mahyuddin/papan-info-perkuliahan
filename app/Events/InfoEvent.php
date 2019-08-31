@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Model\Dosen;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -11,19 +10,18 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class StatusEvent implements ShouldBroadcast
+class InfoEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
-    public $dosen;
+    public $data;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($dosen)
+    public function __construct($data)
     {
-        $this->dosen = $dosen;
+        $this->data = $data;
     }
 
     /**
@@ -33,19 +31,16 @@ class StatusEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['channel-status'];
+        return ['channel-info'];
     }
 
     public function broadcastWith()
     {
-        return [
-            'data' => $this->dosen
-        ];
+        return ['data' => $this->data];
     }
 
     public function broadcastAs()
     {
-        return 'event-status';
+        return 'event-info';
     }
-
 }

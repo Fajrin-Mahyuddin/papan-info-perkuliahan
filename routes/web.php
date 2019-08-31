@@ -15,25 +15,6 @@ Route::get('screen', 'ScreenController@index');
 Route::get('screen/jadwal/ajaxJadwal', 'ScreenController@ajaxJadwal')->name('screen.jadwal');
 Route::get('screen/jadwal/pindah/ajaxPindah', 'ScreenController@ajaxPindah')->name('screen.jadwal.pindah');
 
-Route::get('testing', function() {
-    // $data = \App\Model\JadwalKuliah::get();
-    // event(new \App\Events\JadwalEvent($data));
-    // $options = array(
-    //     'cluster' => 'ap1',
-    //     'useTLS' => true
-    //   );
-    //   $pusher = new Pusher\Pusher(
-    //     '1670cfe8b56094b466a8',
-    //     '00d5624e956ec4d21e80',
-    //     '849340',
-    //     $options
-    //   );
-    
-    //   $data['message'] = 'hello world';
-    //   $pusher->trigger('channel-jadwal', 'event-jadwal', $data);
-    return 'ok';
-});
-
 Route::get('/', function () {
     return view('login');
 })->middleware('guest');
@@ -45,18 +26,11 @@ Route::get('/login', function () {
 Route::post('login/postLogin', 'AuthController@postLogin');
 Route::get('logout', 'AuthController@logout');
 
-Route::get('/register', function () {
-    // App\Model\User::create([
-    //     'username'  => 'fajrin1',
-    //     'level'     => 'dosen',
-    //     'email'     => 'fajrin1@gmail.com',
-    //     'password'  => bcrypt('123'),
-    //     'api_token' => bcrypt('123'),
-    // ]);
-    // return redirect('login')->with(['status' => 'success', 'msg' => 'Register berhasil !']);
-    return AdminHelper::getSemester();
+// Route::get('/register', function () {
+    
+//     return AdminHelper::getSemester();
 
-});
+// });
 
 // Administrator
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admin']], function() {

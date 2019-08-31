@@ -27,6 +27,7 @@ class DosenController extends Controller
      */
     public function index()
     {
+       
         $dosen  = User::count();
         $mk     = MataKuliah::count();
         $kelas  = Kelas::count();
@@ -79,8 +80,8 @@ class DosenController extends Controller
     {
         AdminHelper::toggleStatus();
         $dosen = Dosen::where('id_dosen', Auth::user()->data_dosen->id_dosen)->first();
-
-        // event(new StatusEvent($dosen));
+        $data = ['dosen' => $dosen, 'tipe' => 'dosen'];
+        event(new StatusEvent($data));
         // if(Auth::user()->data_dosen->status === 'nonAktif') {
 
             // $arr_jadwal = [];

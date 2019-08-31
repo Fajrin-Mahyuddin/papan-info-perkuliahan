@@ -99,7 +99,7 @@
 
     $('.timepicker').timepicker({
         showMeridian: false,
-        format: 'HH:mm'  
+        format: 'HH:mm:ss'  
     });
 
     });

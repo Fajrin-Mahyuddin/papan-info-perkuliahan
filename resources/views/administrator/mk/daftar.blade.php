@@ -12,8 +12,8 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <a data-toggle="collapse" href="#mk_content" aria-expanded="false" class="btn btn-sm btn-primary tambah"><i class="fa fa-plus"></i></a>
                         <strong>Tambah Mata Kuliah</strong>
+                        <a data-toggle="collapse" href="#mk_content" aria-expanded="false" class="btn btn-sm btn-primary tambah pull-right"><i class="fa fa-plus"></i></a>
                     </div>
                     <div class="card-content mt-5 collapse" id="mk_content">
                         <div class="offset-md-2">

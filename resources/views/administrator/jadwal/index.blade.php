@@ -96,9 +96,17 @@
                 {data   : 'hari',                         name: 'hari'},
                 {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
                 {data   : 'jam_mulai',                    name: 'jam_mulai' },
+                {data   : 'jam_akhir',                    name: 'jam_akhir' },
                 {data   : 'status',                       name: 'status'},
                 {data   : 'aksi',                         name: 'status'},
-            ]
+            ],
+            "rowCallback": function( row, data ) {
+                if ( data.status == "-") {
+                   $('td:eq(6)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span></span>');
+                } else {
+                   $('td:eq(6)', row).html('<span class="badge badge-primary">'+data.status+'</span>');
+                }
+  	        }
         });
         
         $(document).on('click', '#btn-batal', function() {
@@ -181,15 +189,14 @@
                     }
 
                     if(data.others) {
-                        $('#form-jadwal').hide('slide', {direction:'right'}, function() {
-                            $('#content-jadwal').show('slide');
-                        });
-                        $('#status_alert').removeClass('alert-success');
-                        $('#status_alert').addClass('alert-danger');
-                        $('#status_alert').show('slow');
-                        $('#status_alert').html(data.others);
+                        // $('#form-jadwal').hide('slide', {direction:'right'}, function() {
+                        //     $('#content-jadwal').show('slide');
+                        // });
+                        
+                        $('#others_alert').show('slow');
+                        $('#others_alert').html(data.others);
                         setTimeout(() => {
-                            $('#status_alert').hide('slow');
+                            $('#others_alert').hide('slow');
                         }, 4000);
                         return false;
                     }

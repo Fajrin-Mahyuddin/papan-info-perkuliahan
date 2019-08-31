@@ -1,3 +1,10 @@
+<!-- @if(session('error'))
+    <div class="alert alert-danger" id="status_alert" data-dismiss="alert" role="alert">
+        {{session('error')}}
+    </div>
+@endif -->
+<div style="display:none" class="alert alert-danger" id="others_alert" role="alert"></div>
+
 <form action="#" method="post" enctype="multipart/form-data" class="form-horizontal">
     <div class="row form-group">
         <div class="col col-md-3"><label for="id_dosen" class="form-control-label">Dosen</label></div>
@@ -49,13 +56,13 @@
         </div>
     </div>
     <div class="row form-group">
-        <div class="col col-md-3"><label for="jam_mulai" class="form-control-label">Jam Mulai</label></div>
+        <div class="col col-md-3"><label for="jam_mulai" class="form-control-label">Jam Masuk</label></div>
         :<div class="col-12 col-md-7">
             <input type="text" class="form-control form-control-sm timepicker" id="jam_mulai" name="jam_mulai">
         </div>
     </div>
     <div class="row form-group">
-        <div class="col col-md-3"><label for="jam_akhir" class="form-control-label">Jam Akhir</label></div>
+        <div class="col col-md-3"><label for="jam_akhir" class="form-control-label">Jam Keluar</label></div>
         :<div class="col-12 col-md-7">
             <input type="text" class="form-control form-control-sm timepicker" id="jam_akhir" name="jam_akhir">
         </div>

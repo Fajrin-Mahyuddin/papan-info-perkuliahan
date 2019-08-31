@@ -312,3 +312,14 @@ iframe {
   font-weight: bold;
   font-size: 16px;
 }
+
+.text-berjalan {
+  font-weight: bold;
+  width: 100%;
+  font-size: 25px;
+  color: #f0f3f5 !important;
+  letter-spacing: 1px;
+  /* border: 5px solid #00c292; */
+  bottom: 20px !important;
+  position: absolute;
+}

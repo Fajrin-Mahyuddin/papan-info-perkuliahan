@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <div class="stat-widget-five">
                             <div class="stat-icon dib flat-color-1">
-                                <i class="pe-7s-cash"></i>
+                                <i class="pe-7s-study"></i>
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
@@ -34,7 +34,7 @@
                     <div class="card-body">
                         <div class="stat-widget-five">
                             <div class="stat-icon dib flat-color-2">
-                                <i class="pe-7s-cart"></i>
+                                <i class="pe-7s-server"></i>
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
@@ -52,7 +52,7 @@
                     <div class="card-body">
                         <div class="stat-widget-five">
                             <div class="stat-icon dib flat-color-3">
-                                <i class="pe-7s-browser"></i>
+                                <i class="pe-7s-notebook"></i>
                             </div>
                             <div class="stat-content">
                                 <div class="text-left dib">
@@ -100,7 +100,8 @@
                                         <th>Dosen</th>
                                         <th>Hari</th>
                                         <th>Kelas</th>
-                                        <th>Jam</th>
+                                        <th>Jam Masuk</th>
+                                        <th>Jam Keluar</th>
                                         <th>Status</th>
                                     </tr>
                                 </thead>
@@ -118,7 +119,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Jadwal yang di pindahkan </h4>
+                        <h4 class="box-title">Jadwal yang dipindahkan </h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
@@ -128,7 +129,8 @@
                                         <th>Nama</th>
                                         <th>Dosen</th>
                                         <th>Kelas</th>
-                                        <th>Jam</th>
+                                        <th>Jam Masuk</th>
+                                        <th>Jam Keluar</th>
                                         <th>Tanggal</th>
                                         <th>status</th>
                                     </tr>
@@ -165,8 +167,16 @@
                 {data   : 'hari',                         name: 'hari'},
                 {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
                 {data   : 'jam_mulai',                    name: 'jam_mulai' },
+                {data   : 'jam_akhir',                    name: 'jam_akhir' },
                 {data   : 'status',                       name: 'status'},
-            ]
+            ],
+            'rowCallback':function(row, data) {
+                if(data.status === '-') {
+                    $('td:eq(6)',row).html('<span class="badge badge-primary"><span class="fa fa-check"></span></span>')
+                } else {
+                    $('td:eq(6)',row).html('<span class="badge badge-primary">'+data.status+'</span>')
+                }
+            }
         });
         
         $('#pindah-table').DataTable({
@@ -178,9 +188,17 @@
                 {data   : 'dosen',                        name: '-'},
                 {data   : 'data_kelas.nama',              name: 'data_kelas.nama', defaultContent: '-'},
                 {data   : 'jam_mulai_pindah',             name: 'jam_mulai_pindah' },
+                {data   : 'jam_akhir_pindah',             name: 'jam_akhir_pindah' },
                 {data   : 'tgl_pindah',                   name: 'tgl_pindah' },
                 {data   : 'ket',                       name: 'ket' },
-            ]
+            ],
+            'rowCallback':function(row, data) {
+                if(data.ket === '-') {
+                    $('td:eq(6)',row).html('<span class="badge badge-primary"><span class="fa fa-check"></span></span>')
+                } else {
+                    $('td:eq(6)',row).html('<span class="badge badge-primary">'+data.ket+'</span>')
+                }
+            }
         });
     });
 </script>

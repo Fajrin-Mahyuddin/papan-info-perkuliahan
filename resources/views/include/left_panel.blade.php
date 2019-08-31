@@ -8,13 +8,13 @@
                 <li class="menu-title">Pengolahan Data</li><!-- /.menu-title -->
                 @if(Auth::user()->isLevel('dosen') OR Auth::user()->isLevel('admin'))
                     <li class="menu-item-has-children dropdown jadwal">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-calendar"></i>Jadwal Mata Kuliah</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-calendar"></i>Jadwal Mengajar</a>
                         <ul class="sub-menu children dropdown-menu ">
                             <li><i class="fa fa-angle-double-right"></i><a href="{{url(Auth::user()->level.'/jadwal/daftar')}}">Daftar</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown pindah">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-calendar-check-o"></i>Jadwal Pindah MK</a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-calendar-check-o"></i>Jadwal Pindah</a>
                         <ul class="sub-menu children dropdown-menu">
                             <li><i class="fa fa-angle-double-right"></i><a href="{{url(Auth::user()->level.'/pindah/jadwal/daftar')}}">Daftar</a></li>
                         </ul>

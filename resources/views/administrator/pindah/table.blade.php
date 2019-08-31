@@ -8,7 +8,8 @@
             <th>Nama</th>
             <th>Dosen</th>
             <th>Kelas</th>
-            <th>Jam</th>
+            <th>Jam Masuk</th>
+            <th>Jam Keluar</th>
             <th>Tanggal</th>
             <th>status</th>
             <th>Aksi</th>

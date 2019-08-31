@@ -12,7 +12,7 @@
              <div class="col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="box-title">Kesediaan mengajar hari ini {{Carbon\Carbon::parse(now())->isoFormat('dddd, DD MMMM YYYY')}} </h4>
+                        <h4 class="box-title">Status mengajar hari ini - {{Carbon\Carbon::parse(now())->isoFormat('dddd, DD MMMM YYYY')}} </h4>
                     </div>
                     <div class="card-content mt-3">
                         <div class="col-lg-12 col-md-12 text-center">
@@ -20,7 +20,7 @@
                                 <span class="badge status {{(Auth::user()->data_dosen->status === 'aktif') ? 'badge-success' : 'badge-dark'}}">{{Auth::user()->data_dosen->status}}</span>
                             </h4> 
                             <hr>
-                            <a href="{{url('dosen/generate/status')}}" class="btn-primary btn btn-lg">Generate</a>
+                            <a href="{{url('dosen/generate/status')}}" class="btn-primary btn btn-lg"><span class="fa fa-repeat"></span> Generate</a>
                         </div> <!-- /.col-lg-12 -->
                     </div> <!-- /.row -->
                     <div class="card-body"></div>
@@ -63,7 +63,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="box-title">Jadwal mengajar yang di pindahkan hari ini</h4>
+                        <h4 class="box-title">Jadwal mengajar yang dipindahkan hari ini</h4>
                     </div>
                     <div class="card-content">
                         <div class="col-lg-12">
@@ -127,18 +127,18 @@
             ajax        : '{{route("dosen.pindah.jadwal.daftar.today")}}',
             columns     : [
             
-                {data   : 'nama_mata_kuliah',       name: 'nama_mata_kuliah'   },
-                {data   : 'nama_kelas',    name: 'nama_kelas', defaultContent: '-'},
-                {data   : 'jam_mulai_pindah',          name: 'jam_mulai_pindah' },
-                {data   : 'jam_akhir_pindah',          name: 'jam_akhir_pindah' },
-                {data   : 'ket_pindah',             name: 'ket_pindah'},
-                {data   : 'aksi',               name: 'aksi'},
+                {data   : 'data_jadwal.data_mk.nama',   name: 'data_jadwal.data_mk.nama'   },
+                {data   : 'data_kelas.nama',            name: 'data_kelas.nama', defaultContent: '-'},
+                {data   : 'jam_mulai_pindah',           name: 'jam_mulai_pindah' },
+                {data   : 'jam_akhir_pindah',           name: 'jam_akhir_pindah' },
+                {data   : 'ket',                        name: 'ket'},
+                {data   : 'aksi',                       name: 'aksi'},
             ],
             "rowCallback": function( row, data ) {
-                if ( data.ket_pindah == "-") {
+                if ( data.ket == "-") {
                    $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span></span>');
                 } else {
-                   $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span> '+data.ket_pindah+'</span>');
+                   $('td:eq(4)', row).html('<span class="badge badge-primary"><span class="fa fa-check"></span> '+data.ket+'</span>');
                 }
   	        }
         });

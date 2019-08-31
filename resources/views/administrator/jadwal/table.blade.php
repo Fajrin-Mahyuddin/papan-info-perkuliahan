@@ -6,7 +6,8 @@
             <th>Dosen</th>
             <th>Hari</th>
             <th>Kelas</th>
-            <th>Jam</th>
+            <th>Jam Masuk</th>
+            <th>Jam Keluar</th>
             <th>Status</th>
             <th>Aksi</th>
         </tr>

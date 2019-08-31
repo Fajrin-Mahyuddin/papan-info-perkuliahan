@@ -17,6 +17,17 @@
                     <div class="card-content mt-5">
                         <div class="col-lg-10 offset-md-2">
                             <!-- Content detail -->
+                            @if($errors->any())
+                                <div class="alert alert-danger" id="status_alert" data-dismiss="alert" role="alert">
+                                    @foreach($errors->all() as $error)
+                                            <li>{{$error}}</li>
+                                    @endforeach
+                                </div>
+                            @elseif(session('error'))
+                                <div class="alert alert-danger" id="status_alert" data-dismiss="alert" role="alert">
+                                    {{session('error')}}
+                                </div>
+                            @endif
                             <form action="{{url('admin/pindah/jadwal/daftar/ubah')}}" method="post" enctype="multipart/form-data" class="form-horizontal">
                                @csrf
                                 <div class="row form-group">
@@ -33,16 +44,17 @@
                                             @endforeach
                                         </select>
                                         <input type="hidden" name="id_jadwal" value="{{$data->id_jadwal}}">
+                                        <input type="hidden" name="kode_pindah" value="{{($data->data_pindah) ? $data->data_pindah->kode_pindah:date('mdH').time()}}">
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label for="jam_mulai_pindah" class="form-control-label">Jam Mulai</label></div>
+                                    <div class="col col-md-3"><label for="jam_mulai_pindah" class="form-control-label">Jam Masuk</label></div>
                                     :<div class="col-12 col-md-7">
                                         <input type="text" class="form-control form-control-sm timepicker" id="jam_mulai_pindah" name="jam_mulai_pindah" value="--:--">
                                     </div>
                                 </div>
                                 <div class="row form-group">
-                                    <div class="col col-md-3"><label for="jam_akhir_pindah" class="form-control-label">Jam Akhir</label></div>
+                                    <div class="col col-md-3"><label for="jam_akhir_pindah" class="form-control-label">Jam Keluar</label></div>
                                     :<div class="col-12 col-md-7">
                                         <input type="text" class="form-control form-control-sm timepicker" id="jam_akhir_pindah" name="jam_akhir_pindah" value="--:--">
                                     </div>
