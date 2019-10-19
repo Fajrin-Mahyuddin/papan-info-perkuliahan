@@ -2561,3 +2561,14 @@ footer.site-footer {
   text-transform: capitalize;
 }
 
+.text-validasi {
+  font-size: 20px !important;
+}
+
+#data-page {
+  text-align: center !important;
+}
+
+.text-validasi {
+  margin-bottom: 10px;
+}

@@ -39,9 +39,9 @@
 				<div class="wrap-table100">
 					<div class="table jadwal-slide" id="jadwal">
 							<div class="row header">
-								<!-- <div class="cell">
+								<div class="cell">
 									No
-								</div> -->
+								</div>
 								<div class="cell">
 									Mata Kuliah
 								</div>
@@ -67,9 +67,9 @@
 					</div> <!--Table -->
 					<div class="table jadwal-next" id="next-jadwal" style="display:none">
 							<div class="row header">
-								<!-- <div class="cell">
+								<div class="cell">
 									No
-								</div> -->
+								</div>
 								<div class="cell">
 									Mata Kuliah
 								</div>
@@ -96,9 +96,9 @@
 
 					<div class="table pindah-slide" id="pindah-jadwal" style="display:none">
 							<div class="row header">
-								<!-- <div class="cell">
+								<div class="cell">
 									No
-								</div> -->
+								</div>
 								<div class="cell">
 									Mata Kuliah Pindah
 								</div>
@@ -141,7 +141,7 @@
 				<div class="text-berjalan">
 					<marquee behavior="scrool" direction="left" class="info">
 						@foreach($informasi as $info)
-							<span class="{{$info->id_informasi}}" data-id="{{$info->id_informasi}}"> <i style="color:red" class="fa {{$info->level}} berkedip"></i> {{$info->judul}} - {{$info->isi_informasi}} <i class="fa fa-circle"></i></span>
+							<span class="{{$info->id_informasi}}" data-id="{{$info->id_informasi}}">{{$info->judul}} - {{$info->isi_informasi}} <i class="fa fa-circle"></i></span>
 						@endforeach
 					</marquee>
 				</div>
@@ -174,16 +174,14 @@
             return data.charAt(0).toUpperCase() + data.slice(1)
 			}
 
-			setInterval(() => {
-					$('.berkedip').fadeOut();
-					$('.berkedip').fadeIn();
-			}, 300);
-
-			function addElementHtml(value) {
+			function addElementHtml(value, index) {
 				var warna;
 				if(value.data_dosen.status == 'nonAktif') { warna = 'nonAktif' }else{ warna = 'aktif' }
 
-				return `<div class="cell" data-title="Full Name">
+				return `<div class="cell no" data-title="Full Name">
+									`+index+`
+								</div>
+								<div class="cell" data-title="Full Name">
 									`+value.data_mk.nama+`
 								</div>
 								<div class="cell" data-title="Full Name">
@@ -206,11 +204,14 @@
 								</div>`;
 			}
 
-			function addElementPindah(value, option = null) {
+			function addElementPindah(value, option = null, index) {
 				var warna;
 				if(value.data_dosen.status == 'nonAktif') { warna = 'nonAktif' }else{ warna = 'aktif' }
 		
-				return `<div class="cell" data-title="Full Name">
+				return `<div class="cell no_pindah" data-title="Full Name">
+									`+index+`
+								</div>
+								<div class="cell" data-title="Full Name">
 									`+value.data_mk.nama+`
 								</div>
 								<div class="cell" data-title="Age">
@@ -246,14 +247,14 @@
 						var no = index + 1;
 						if(index < 20) {
 						$('#jadwal').append(`
-							<div class="row `+value.id_jadwal+`" data-id="`+value.id_jadwal+`">
-								`+addElementHtml(value)+`
+							<div class="row `+value.id_jadwal+`" data-id="`+value.id_jadwal+`" data-no="`+index+`">
+								`+addElementHtml(value, no)+`
 							</div>
 						`);
 						} else {
 							$('#next-jadwal').append(`
-							<div class="row `+value.id_jadwal+`" data-id="`+value.id_jadwal+`">
-								`+addElementHtml(value)+`
+							<div class="row `+value.id_jadwal+`" data-id="`+value.id_jadwal+`" data-no="`+index+`">
+								`+addElementHtml(value, no)+`
 							</div>
 						`);
 						}
@@ -267,9 +268,10 @@
 				url					: '{{route("screen.jadwal.pindah")}}',
 				success: function(response) {
 					$.each(response, function(index, value) {
+						var index = index + 1;
 						$('#pindah-jadwal').append(`
 							<div class="row `+value.kode_pindah+`" data-id="`+value.kode_pindah+`">
-								`+addElementPindah(value.data_jadwal, value)+`
+								`+addElementPindah(value.data_jadwal, value, index)+`
 							</div>
 						`);
 					});
@@ -315,13 +317,15 @@
 			var change = pusher.subscribe('channel-jadwal');
 			change.bind('event-jadwal', function(response) {
 				var id = $('.'+response.data.id_jadwal).data('id');
-				// var newNo = $('.'+response.data.id_jadwal).data('no');
+				var newNo = $('.'+response.data.id_jadwal).data('no');
 				if(id) {
-					$('.'+id).html(addElementHtml(response.data));
+					$('.'+id).html(addElementHtml(response.data, newNo));
 				} else {
+						var no = $('.no').last().html();
+						no++;
 						$('#next-jadwal').append(`
 							<div class="row `+response.data.id_jadwal+`" data-id="`+response.data.id_jadwal+`">
-									`+addElementHtml(response.data)+`
+									`+addElementHtml(response.data, no)+`
 							</div>
 						`);
 				}
@@ -333,9 +337,11 @@
 				if(id) {
 					$('.'+id).html(addElementPindah(response.data.data_jadwal, response.data));
 				} else {
+					var no = $('.no-pindah').last().html();
+					no++;
 						$('#pindah-jadwal').append(`
 							<div class="row `+response.data.kode_pindah+`" data-id="`+response.data.kode_pindah+`">
-									`+addElementPindah(response.data.data_jadwal, response.data)+`
+									`+addElementPindah(response.data.data_jadwal, response.data, no)+`
 							</div>
 						`);
 				}
@@ -372,9 +378,9 @@
 				if(response.data.tipe === 'ubah') {
 					var id = $('.info > span.'+response.data.info.id_informasi).data('id');
 					if(id) {
-						$('.info > span.'+response.data.info.id_informasi).html('<i class="fa '+response.data.info.level+' berkedip" style="color:red"></i>'+response.data.info.judul+' - '+response.data.info.isi_informasi+' <i class="fa fa-circle"></i>');
+						$('.info > span.'+response.data.info.id_informasi).html(response.data.info.judul+' - '+response.data.info.isi_informasi+' <i class="fa fa-circle"></i>');
 					} else {
-						$('.info').append(`<i class="fa `+response.data.info.level+` berkedip" style="color:red"></i><span class="`+response.data.info.id_informasi+`" data-id=="`+response.data.info.id_informasi+`">`+response.data.info.judul+` - `+response.data.info.isi_informasi+` <i class="fa fa-circle"></i></span>`);
+						$('.info').append(`<span class="`+response.data.info.id_informasi+`" data-id=="`+response.data.info.id_informasi+`">`+response.data.info.judul+` - `+response.data.info.isi_informasi+` <i class="fa fa-circle"></i></span>`);
 					}
 				} else {
 					$('.info > span.'+response.data.info).remove();
@@ -385,6 +391,9 @@
 			hapus.bind('event-hapus', function(response) {
 					$('.'+response.data).remove();
 			});
+
+
+			
 
 		});
 	</script>

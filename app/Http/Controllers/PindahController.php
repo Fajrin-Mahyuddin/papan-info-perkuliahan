@@ -85,8 +85,8 @@ class PindahController extends Controller
         }
 
         
-        $jadwal = JadwalKuliah::where('hari', AdminHelper::getToday($request->tgl_pindah))->where('id_jadwal', '!=', $request->id)->where('id_kelas', $request->id_kelas)->get();
-        $pindah = PindahJadwal::where('tgl_pindah', $request->tgl_pindah)->where('id_jadwal', '!=', $request->id)->where('id_kelas', $request->id_kelas)->get();
+        $jadwal = JadwalKuliah::where('hari', AdminHelper::getToday($request->tgl_pindah))->where('id_jadwal', '!=', $request->id_jadwal)->where('id_kelas', $request->id_kelas)->get();
+        $pindah = PindahJadwal::where('tgl_pindah', $request->tgl_pindah)->where('id_jadwal', '!=', $request->id_jadwal)->where('id_kelas', $request->id_kelas)->get();
         $validasi = AdminHelper::validateJadwal($jadwal, $request->jam_mulai_pindah, $request->jam_akhir_pindah);
         $validasi_pindah = AdminHelper::validateJadwal($pindah, $request->jam_mulai_pindah, $request->jam_akhir_pindah);
         if(!$validasi OR !$validasi_pindah) {

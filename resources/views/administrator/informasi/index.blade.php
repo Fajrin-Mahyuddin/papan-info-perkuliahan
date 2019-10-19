@@ -38,7 +38,9 @@
                                     :<div class="col col-md-7">
                                         <div class="form-check-inline form-check">
                                             <label for="inline-radio1" class="form-check-label mr-3">
-                                                <input type="radio" id="ket" name="ket" value="publish" checked class="form-check-input">Terbitkan
+                                                <!-- <input type="hidden" id="ket" name="ket" value="publish"> -->
+                                                <input type="checkbox" id="level" name="level" value="fa-bell" class="form-check-input">Terbaru
+                                                || <input type="radio" id="ket" name="ket" value="publish" checked class="form-check-input">Publish
                                             </label>
                                         </div>
                                     </div>
@@ -139,6 +141,8 @@ jQuery(document).ready(function($) {
 
     $('#btn-cancel').on('click', function() {
         $('#form-informasi').collapse('hide');
+        $('input[type="checkbox"][value="fa-bell"]').prop('checked', false);
+
     });
 
     $('#tambah').on('click', function() {
@@ -147,7 +151,9 @@ jQuery(document).ready(function($) {
         $('#judul').val('');
         $('#isi_informasi').val('');
         $('#id_semester').val('');
+        // $('#ket').val('');
         $('input[type="radio"][value="publish"]').prop('checked', true);
+        $('input[type="checkbox"][value="fa-bell"]').prop('checked', false);
         $('#btn-submit').data('submit', 'tambah');
     });
 
@@ -157,8 +163,15 @@ jQuery(document).ready(function($) {
         $('#id_semester').val($(this).data('id_semester'));
         $('#judul').val($(this).data('judul'));
         $('#isi_informasi').val($(this).data('isi_informasi'));
-        var val = $(this).data('ket');
+        var val  = $(this).data('ket');
         $('input[type="radio"][value="'+val+'"]').prop('checked', true);
+
+        var level = $(this).data('level');
+        if(level)  {
+            $('input[type="checkbox"][value="'+level+'"]').prop('checked', true);
+        } else {
+            $('input[type="checkbox"]').prop('checked', false);
+        }
         $('#btn-submit').data('submit', 'ubah');
     });
 
@@ -175,6 +188,8 @@ jQuery(document).ready(function($) {
         var judul           = $('#judul').val();
         var isi_informasi   = $('#isi_informasi').val();
         var ket             = $('input[type="radio"]:checked').val();
+        var level           = $('input[type="checkbox"]:checked').val();
+        console.log(level);
         var url             = $('#btn-submit').data('submit');
 
         $.ajax({
@@ -186,6 +201,7 @@ jQuery(document).ready(function($) {
                 id_semester     : id_semester,
                 judul           : judul,
                 isi_informasi   : isi_informasi,
+                level           : level,
                 ket             : ket
             },
             success: function(data) {

@@ -15,6 +15,18 @@ Route::get('screen', 'ScreenController@index');
 Route::get('screen/jadwal/ajaxJadwal', 'ScreenController@ajaxJadwal')->name('screen.jadwal');
 Route::get('screen/jadwal/pindah/ajaxPindah', 'ScreenController@ajaxPindah')->name('screen.jadwal.pindah');
 
+Route::get('mhs', 'ValidateController@index');
+Route::post('mhs/postLogin', 'ValidateController@postLogin')->name('mhs.postLogin');
+// Route::post('mhs/cekData', 'ValidateController@cekData')->name('mhs.cekData');
+Route::get('mhs/konfirmasi/{id}', 'ValidateController@konfirmasi');
+Route::get('mhs/create', function() {
+    App\Model\UserValidasi::create([
+        'nama' => '2019-B',
+        'pass' => bcrypt('123'),
+        'ket'  => 'aktif'
+    ]);
+});
+
 Route::get('/', function () {
     return view('login');
 })->middleware('guest');
@@ -44,6 +56,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admi
     Route::post('jadwal/ubah', 'JadwalController@store');
     Route::post('jadwal/hapus', 'JadwalController@destroy');
     Route::get('jadwal/daftar/ajaxData', 'JadwalController@ajaxData')->name('jadwal.daftar.ajax');
+    
+    Route::get('jadwal/absensi/daftar', 'ValidateController@daftar');
+    Route::get('jadwal/absensi/daftar/ajaxData', 'ValidateController@ajaxData')->name('absensi.daftar.ajaxData');
 
     Route::get('pindah/jadwal/daftar', 'PindahController@index');
     Route::get('pindah/jadwal/daftar/tambah/{id}', 'PindahController@edit');
@@ -62,6 +77,12 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'AuthMiddleware:admi
     Route::post('dosen/ubah', 'UserController@store');
     Route::post('dosen/hapus', 'UserController@destroy');
     Route::get('dosen/daftar/ajaxData', 'UserController@ajaxData')->name('dosen.daftar.ajax');
+
+    Route::get('mhs/daftar', 'UserController@indexMhs');
+    Route::post('mhs/tambah', 'UserController@storeMhs');
+    Route::post('mhs/ubah', 'UserController@storeMhs');
+    Route::post('mhs/hapus', 'UserController@destroyMhs');
+    Route::get('mhs/daftar/ajaxDataMhs', 'UserController@ajaxDataMhs')->name('mhs.daftar.ajax');
 
     Route::post('mk/tambah', 'MkController@store');
     Route::post('mk/ubah', 'MkController@store');
@@ -98,6 +119,9 @@ Route::group(['prefix' => 'dosen', 'middleware' => ['auth', 'AuthMiddleware:dose
     Route::get('jadwal/daftar/masuk/{id}', 'DataDosenController@generateMasuk');
     Route::get('jadwal/daftar/keluar/{id}', 'DataDosenController@generateKeluar');
     
+    Route::get('jadwal/absensi/daftar', 'ValidateController@daftarDosen');
+    Route::get('jadwal/absensi/daftar/ajaxDosen', 'ValidateController@ajaxDosen')->name('absensi.dosen.daftar.ajaxDosen');
+
     Route::get('pindah/jadwal/daftar', 'DataDosenController@pindahIndex');
     Route::get('pindah/jadwal/daftar/tambah/{id}', 'DataDosenController@edit');
     Route::post('pindah/jadwal/daftar/ubah', 'DataDosenController@update');

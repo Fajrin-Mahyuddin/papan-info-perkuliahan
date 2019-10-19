@@ -11,6 +11,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <i class="menu-icon fa fa-calendar"></i>Jadwal Mengajar</a>
                         <ul class="sub-menu children dropdown-menu ">
                             <li><i class="fa fa-angle-double-right"></i><a href="{{url(Auth::user()->level.'/jadwal/daftar')}}">Daftar</a></li>
+                            <li><i class="fa fa-angle-double-right"></i><a href="{{url(Auth::user()->level.'/jadwal/absensi/daftar')}}">Absensi</a></li>
                         </ul>
                     </li>
                     <li class="menu-item-has-children dropdown pindah">
@@ -38,6 +39,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-address-book-o"></i>Dosen</a>
                     <ul class="sub-menu children dropdown-menu">
                         <li><i class="fa fa-angle-double-right"></i><a href="{{url('admin/dosen/daftar')}}">Daftar</a></li>
+                        <li><i class="fa fa-angle-double-right"></i><a href="{{url('admin/mhs/daftar')}}">Mahasiswa</a></li>
                     </ul>
                 </li>
                 <li class="menu-item-has-children dropdown kelas">

@@ -82,26 +82,6 @@ class DosenController extends Controller
         $dosen = Dosen::where('id_dosen', Auth::user()->data_dosen->id_dosen)->first();
         $data = ['dosen' => $dosen, 'tipe' => 'dosen'];
         event(new StatusEvent($data));
-        // if(Auth::user()->data_dosen->status === 'nonAktif') {
-
-            // $arr_jadwal = [];
-            // $jadwal = JadwalKuliah::where('id_dosen', Auth::user()->data_dosen->id_dosen)->get();
-            // foreach($jadwal as $val) {
-            //     $value = array_push($arr_jadwal, $val->id_jadwal);
-            // }
-            // if($jadwal) {
-            //     JadwalKuliah::whereIn('id_jadwal', $arr_jadwal)->where('status', 'masuk')->update(['status' => '-']);
-            //     PindahJadwal::whereIn('id_jadwal', $arr_jadwal)->where('ket', 'masuk')->delete();
-            // }
-        //         $hari = \Carbon\Carbon::parse(now())->isoFormat('dddd');
-        //         // $pindah = PindahJadwal::with(['data_jadwal', 'data_jadwal.data_mk', 'data_jadwal.data_dosen', 'data_kelas'])->get();
-        //         $jadwals = JadwalKuliah::with(['data_mk', 'data_dosen', 'data_kelas'])->whereIn('id_jadwal', $arr_jadwal)->where('hari', $hari)->get();
-        //         foreach($jadwals as $jadwal) {
-        //             event(new JadwalEvent($jadwal));
-        //             if($jadwal->data_pindah){event(new HapusEvent($jadwal->data_pindah->id_pindah));};
-        //         }
-        //     }
-        // }
             
         return redirect()->back();
     }

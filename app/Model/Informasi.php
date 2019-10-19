@@ -8,7 +8,7 @@ class Informasi extends Model
 {
     protected $table        = 'tbd_informasi';
     protected $primaryKey   = 'id_informasi';
-    protected $fillable     = ['id_dosen', 'id_semester', 'judul', 'isi_informasi', 'ket'];
+    protected $fillable     = ['id_dosen', 'id_semester', 'judul', 'isi_informasi', 'ket', 'level'];
 
     public function data_dosen()
     {

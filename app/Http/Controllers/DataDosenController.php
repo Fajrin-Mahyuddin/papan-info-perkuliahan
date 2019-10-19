@@ -118,18 +118,6 @@ class DataDosenController extends Controller
                                 ->where(function($query) {
                                     $query->whereDate('tgl_pindah', date('Y-m-d'));
                                 })->get();
-       
-        // $data = DB::table('tbd_jadwal_kuliah')
-        //         ->join('tbd_pindah_jadwal', 'tbd_jadwal_kuliah.id_jadwal', '=', 'tbd_pindah_jadwal.id_jadwal')
-        //         ->join('tbd_dosen', 'tbd_jadwal_kuliah.id_dosen', '=', 'tbd_dosen.id_dosen')
-        //         ->join('tbm_kelas', 'tbd_jadwal_kuliah.id_kelas', '=', 'tbm_kelas.id_kelas')
-        //         ->join('tbm_mata_kuliah', 'tbd_jadwal_kuliah.id_mk', '=', 'tbm_mata_kuliah.id_mk')
-        //         ->select('tbd_jadwal_kuliah.*','tbd_jadwal_kuliah.ket as ket_jadwal', 'tbd_jadwal_kuliah.status as status_jadwal', 'tbd_pindah_jadwal.*', 'tbd_pindah_jadwal.ket as ket_pindah', 'tbd_dosen.*', 'tbd_dosen.nama as nama_dosen', 'tbd_dosen.status as status_dosen', 'tbd_dosen.ket as ket_dosen', 'tbm_kelas.*', 'tbm_kelas.nama as nama_kelas', 'tbm_kelas.status as status_kelas', 'tbm_kelas.ket as ket_kelas', 'tbm_mata_kuliah.*', 'tbm_mata_kuliah.nama as nama_mata_kuliah', 'tbm_mata_kuliah.ket as ket_mata_kuliah')
-        //         ->where(function($query){
-        //             $query->where('tbd_jadwal_kuliah.status', 'pindah')->orWhere('tbd_pindah_jadwal.ket', 'masuk');
-        //         })->where('tbd_jadwal_kuliah.id_dosen', Auth::user()->data_dosen->id_dosen)
-        //         ->whereDate('tbd_pindah_jadwal.tgl_pindah', now())
-        //         ->get();
         
         return DataTables::of($data)->addIndexColumn()
                                     ->addColumn('aksi', function($data) {
@@ -154,8 +142,11 @@ class DataDosenController extends Controller
                                         if(Auth::user()->data_dosen->status === 'aktif') {
                                             if($data->status === 'masuk') {
                                                 return '<a href="'.url('dosen/jadwal/daftar/keluar/'.base64_encode(date('Y/m/d').'-'.$data->id_jadwal.'-')).'" class="btn btn-sm btn-danger" data-id="'.$data->id_jadwal.'"><i class="fa fa-sign-out"></i> Selesai</a>'; 
-                                            } else {
+                                            } elseif($data->status === '-') {
                                                 return '<a href="'.url('dosen/jadwal/daftar/masuk/'.base64_encode(date('Y/m/d').'-'.$data->id_jadwal.'-')).'" class="btn btn-sm btn-success" data-id="'.$data->id_jadwal.'"><i class="fa fa-sign-out"></i> Masuk</a>'; 
+                                            } elseif($data->status === 'invalid') {
+                                                // return '<a href="'.url('dosen/jadwal/daftar/keluar/'.base64_encode(date('Y/m/d').'-'.$data->id_jadwal.'-')).'" class="btn btn-sm btn-warning" data-id="'.$data->id_jadwal.'"><i class="fa fa-sign-out"></i> Batal</a>'; 
+                                                return ' ';
                                             }
                                         }
                                     })->escapeColumns([])->make(true);

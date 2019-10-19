@@ -6,6 +6,7 @@ use Validator;
 use DataTables;
 use App\Model\User;
 use App\Model\Dosen;
+use App\Model\UserValidasi;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -19,6 +20,11 @@ class UserController extends Controller
     public function index()
     {
         return view('administrator.users.index');
+    }
+
+    public function indexMhs()
+    {
+        return view('administrator.users.mhs');
     }
 
     /**
@@ -101,9 +107,40 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+
+    public function storeMhs(Request $request)
     {
-        //
+        $validate = Validator::make($request->all(), [
+            'nama'         => [
+                'required',
+                Rule::unique('tb_user_validasi')->ignore($request->id_user_validasi, 'id_user_validasi'),
+            ],
+            'password'      => 'required',
+        ]);
+        
+        if($validate->fails()) {
+            return response()->json(['error' => $validate->getMessageBag()->toArray()]);
+        }
+
+        $user = UserValidasi::updateOrCreate([
+                'id_user_validasi'     =>$request->id_user_validasi
+            ],[
+                'nama'          => $request->nama,
+                'pass'          => bcrypt($request->password)
+        ]);
+        
+        return response()->json(['success' => 'Success']);
+    }
+    
+    public function ajaxDataMhs()
+    {
+        $data = UserValidasi::where('ket', 'aktif')->get();
+
+        return DataTables::of($data)
+                            ->addIndexColumn()
+                            ->addColumn('aksi', function($data) {
+                                return '<a href="#" data-id="'.$data->id_user_validasi.'" data-nama="'.$data->nama.'" class="btn-edit-action"><i class="fa fa-pencil"></i></a> | <a href="#" class="btn-delete-action" data-id="'.$data->id_user_validasi.'" data-nama="'.$data->nama.'"><i class="fa fa-trash"></i></a>';
+                            })->escapeColumns([])->make(true);
     }
 
     /**
@@ -113,9 +150,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function destroyMhs(Request $request)
     {
-        //
+        UserValidasi::destroy($request->id_user_validasi);
+        return response()->json(['success' => 'Success !']);
     }
 
     /**

@@ -27,7 +27,7 @@ class InformasiController extends Controller
                                     ->addColumn('tahun_semester', function($data) {
                                         return $data->data_semester->tahun_semester;
                                     })->addColumn('aksi', function($data) {
-                                        return '<a href="#" class="btn-edit-action" data-id="'.$data->id_informasi.'" data-id_semester="'.$data->id_semester.'" data-judul="'.$data->judul.'" data-isi_informasi="'.$data->isi_informasi.'" data-ket="'.$data->ket.'"><i class="fa fa-pencil"></i></a> | <a href="#" data-id="'.$data->id_informasi.'" class="btn-delete-action"><i class="fa fa-trash"></i></a>';
+                                        return '<a href="#" class="btn-edit-action" data-id="'.$data->id_informasi.'" data-id_semester="'.$data->id_semester.'" data-judul="'.$data->judul.'" data-level="'.$data->level.'" data-isi_informasi="'.$data->isi_informasi.'" data-ket="'.$data->ket.'"><i class="fa fa-pencil"></i></a> | <a href="#" data-id="'.$data->id_informasi.'" class="btn-delete-action"><i class="fa fa-trash"></i></a>';
                                     })->escapeColumns([])->make(true);
     }
 
@@ -57,6 +57,7 @@ class InformasiController extends Controller
         ],[
             'judul'         => $request->judul,
             'isi_informasi' => $request->isi_informasi,
+            'level'         => $request->level,
             'ket'           => $request->ket,
             'id_dosen'      => Auth::user()->data_dosen->id_dosen,
             'id_semester'   => $request->id_semester
